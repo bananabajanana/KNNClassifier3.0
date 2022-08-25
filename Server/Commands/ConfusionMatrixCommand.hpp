@@ -1,0 +1,11 @@
+#ifndef KNNCLASSIFIER3_0_CONFUSIONMATRIXCOMMAND_HPP
+#define KNNCLASSIFIER3_0_CONFUSIONMATRIXCOMMAND_HPP
+
+#include "Server/Commands/Command.cpp"
+
+class ConfusionMatrixCommand : public Command{
+
+};
+
+
+#endif //KNNCLASSIFIER3_0_CONFUSIONMATRIXCOMMAND_HPP
