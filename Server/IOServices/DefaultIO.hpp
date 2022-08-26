@@ -2,6 +2,7 @@
 #define KNNCLASSIFIER3_0_DEFAULTIO_HPP
 
 #include <string>
+#include <iostream>
 
 class DefaultIO {
 public:

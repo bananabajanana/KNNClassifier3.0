@@ -4,7 +4,8 @@
 #include "Server/IOServices/DefaultIO.hpp"
 
 class StandardIO : public DefaultIO {
-
+    std::string read() override;
+    void write(std::string toWrite) override;
 };
 
 
