@@ -3,11 +3,11 @@
 #include <iostream>
 #include <vector>
 /**
- * Point with n dimensions in the coordinate system.
+ * Point with N dimensions in the coordinate system.
  */
 class NPoint {
 private:
-    const int n;
+    const int N;
     const std::vector<double> Point;
 public:
 
@@ -19,18 +19,9 @@ public:
 
     /**
      * Returns the number of dimensions.
-     * @return n.
+     * @return N.
      */
     const int getN() const;
-
-    /**
-     * Creates a point in the coordinate system using the flower characteristics.
-     * @param sepalWidth - the sepal width of the iris.
-     * @param sepalLength - the sepal length of the iris.
-     * @param petalWidth - the petal width of the iris.
-     * @param petalLength - the petal length of the iris.
-     */
-    NPoint(double sepalWidth, double sepalLength, double petalWidth, double petalLength);
 
     /**
      * Creates a point in the coordinate system using the properties.
@@ -40,7 +31,7 @@ public:
     NPoint(double* properties, int n);
 
     /**
-     * Get array of n properties and makes from that a point that is a vector.
+     * Get array of N properties and makes from that a point that is a vector.
      * @param properties - the properties of a point.
      * @param n - the number of dimensions.
      * @return the point as vector.

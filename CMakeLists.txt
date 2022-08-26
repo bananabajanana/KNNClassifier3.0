@@ -30,8 +30,8 @@ add_executable(Server
         Server/CLI.hpp
         Server/Classifier/Classifier.cpp
         Server/Classifier/Classifier.hpp
-        Server/Classifier/Flower.cpp
-        Server/Classifier/Flower.hpp
+        Server/Classifier/Item.cpp
+        Server/Classifier/Item.hpp
         Server/Classifier/NPoints.cpp
         Server/Classifier/NPoints.hpp
         Server/Classifier/srcDistances/DistanceCalc.cpp

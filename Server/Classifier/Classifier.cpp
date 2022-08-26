@@ -1,44 +1,57 @@
 #include "Classifier.hpp"
+#include <map>
+#include <algorithm>
 
+Classifier::Classifier(int k) : k(k) {
 
-Classifier::Classifier(int k, const std::vector<Flower>& classified) :k(k) {
-    for(auto& flower:classified) {
-        this->classified.push_back(flower);
+}
+void Classifier::setUnclassified(const std::vector<Item>& unClassified) {
+    this->unClassified.clear();
+    this->kindOfClassified.clear();
+    for(auto& item:unClassified) {
+        this->unClassified.push_back(item);
+        this->kindOfClassified.push_back(item);
     }
 }
 
-void Classifier::defFlowers(std::vector<Flower>& unclassified, DistanceCalc& typeDis) const{
+void Classifier::setClassified(const std::vector<Item>& classified) {
+    this->classified.clear();
+    for(auto& item:classified) {
+        this->classified.push_back(item);
+    }
+}
+
+void Classifier::defItems(std::vector<Item>& unclassified, DistanceCalc& typeDis) const{
     for(int i = 0; i < unclassified.size();i++) {
-        defFlower(unclassified[i], typeDis);
+        defItem(unclassified[i], typeDis);
     }
 }
-void Classifier::defFlower(Flower& f, DistanceCalc& calculator) const{
+void Classifier::defItem(Item& item, DistanceCalc& typeDis) const{
     std::vector<double> distances;
-    std::vector<Flower> results;
+    std::vector<Item> results;
 
     for(auto & i : classified) {
-        distances.push_back(calculator.dist(f.getPoint(), i.getPoint()));
+        distances.push_back(typeDis.dist(item.getPoint(), i.getPoint()));
     }
 
     for(int i=0;i<k;i++) {
         results.push_back(classified[whereMinInArr(distances)]);
     }
 
-    int types[] = {0,0,0};
+    std::map<std::string, double> mapTypes;
     for(int i=0;i<k;i++) {
-        types[results[i].getTypeOfIris()]++;
+        if(mapTypes.find(results[i].getTypeOfItem())==mapTypes.end()) {
+            mapTypes[results[i].getTypeOfItem()] = 1;
+        }
+        else {
+            mapTypes[results[i].getTypeOfItem()]++;
+        }
     }
+    auto maxPair = std::max_element(mapTypes.begin(), mapTypes.end(), [](const auto &a, const auto &b) {
+        return a.second < b.second;
+    });
+    item.setType(maxPair->first);
 
-    if(types[0]==fmax(types[0],(int)fmax(types[1],types[2]))) {
-        f.setType(versicolor);
-    }
-    if(types[1]==fmax(types[0],(int)fmax(types[1],types[2]))) {
-        f.setType(virginica);
-    }
-
-    if(types[2]==fmax(types[0],(int)fmax(types[1],types[2]))) {
-        f.setType(setosa);
-    }
 
 }
 

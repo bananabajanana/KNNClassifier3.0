@@ -91,7 +91,7 @@ private:
     ...
 };
 ```
-The NPoint is a representation of the Flower's parameters, and functions as a point in an n-dimensional coordinate system (in 4d with the current implementation example, but can easily be expanded).
+The NPoint is a representation of the Flower's parameters, and functions as a point in an N-dimensional coordinate system (in 4d with the current implementation example, but can easily be expanded).
 
 Our code implements the algorithm with three different possible distance functions: Euclidean distance, Manhattan distance, and Chebyshev distance, but to allow the addition of other distance functions, we implemented generic code with an abstract distance class.
 
