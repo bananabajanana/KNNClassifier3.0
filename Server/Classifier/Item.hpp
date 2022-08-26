@@ -31,7 +31,7 @@ public:
     std::string getTypeOfItem() const;
 
      /**
-      * Creat the flower using its characteristics.
+      * Creat the flower using its characteristics that has a type.
       * @param properties - the item's properties.
       * @param n - number of properties.
       * @param type - the item's type.
@@ -39,7 +39,7 @@ public:
     Item(double* properties,int n, std::string type);
 
     /**
-    * Creat the flower using its characteristics.
+    * Creat the flower using its characteristics with no type.
     * @param properties - the item's properties.
     * @param n - number of properties.
     */

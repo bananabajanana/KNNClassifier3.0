@@ -27,6 +27,12 @@ private:
     */
     static int whereMinInArr(std::vector<double>& distances);
 
+    /**
+    * Define an undefined flower.
+    * @param item - The flower.
+    * @param typeDis - The distance method we are going to use.
+    */
+    void defItem(Item& item, DistanceCalc& typeDis) const;
 public:
     /**
     * set a classified items.
@@ -48,12 +54,7 @@ public:
     * @return true or false classified items that were declared.
     */
     bool isThereClassifiedItems();
-    /**
-    * Define an undefined flower.
-    * @param item - The flower.
-    * @param typeDis - The distance method we are going to use.
-     */
-    void defItem(Item& item, DistanceCalc& typeDis) const;
+
 
     /**
      * Defines all the unclassified items.
