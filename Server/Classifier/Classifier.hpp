@@ -18,16 +18,7 @@ private:
     std::vector<Item> classified;
     std::vector<Item> unClassified;
     std::vector<Item> kindOfClassified;
-    /**
-     * set a classified items.
-     * @param classified - the classified items.
-     */
-    void setClassified(const std::vector<Item>& classified);
-    /**
-    * set a unclassified items.
-    * @param unClassified - the unclassified items.
-    */
-    void setUnclassified(const std::vector<Item>& unClassified);
+
     /**
     * Helps the "defItem" function algorithm finding the closest iris
     * and sending its place - while changing the distance to max value.
@@ -37,6 +28,26 @@ private:
     static int whereMinInArr(std::vector<double>& distances);
 
 public:
+    /**
+    * set a classified items.
+    * @param classified - the classified items.
+    */
+    void setClassified(const std::vector<Item>& classified);
+    /**
+    * set a unclassified items.
+    * @param unClassified - the unclassified items.
+    */
+    void setUnclassified(const std::vector<Item>& unClassified);
+    /**
+     * if there is Unclassified items.
+     * @return true or false Unclassified items that were declared.
+     */
+    bool isThereUnclassifiedItems();
+    /**
+    * if there is classified items.
+    * @return true or false classified items that were declared.
+    */
+    bool isThereClassifiedItems();
     /**
     * Define an undefined flower.
     * @param item - The flower.

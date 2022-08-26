@@ -26,10 +26,17 @@ void Classifier::defItems(std::vector<Item>& unclassified, DistanceCalc& typeDis
         defItem(unclassified[i], typeDis);
     }
 }
+bool Classifier::isThereClassifiedItems() {
+    return classified.empty();
+}
+
+bool Classifier::isThereUnclassifiedItems() {
+    return unClassified.empty();
+}
+
 void Classifier::defItem(Item& item, DistanceCalc& typeDis) const{
     std::vector<double> distances;
     std::vector<Item> results;
-
     for(auto & i : classified) {
         distances.push_back(typeDis.dist(item.getPoint(), i.getPoint()));
     }
