@@ -8,6 +8,7 @@
 class Command {
 private:
     std::string description;
+protected:
     DefaultIO *dio;
     Classifier classifier;
 public:

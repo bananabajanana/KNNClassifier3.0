@@ -13,5 +13,5 @@ const double ChebyshevDistance::dist(const NPoint& p1, const NPoint& p2) const {
 }
 
 ChebyshevDistance::ChebyshevDistance() {
-    this->FILE_NAME = "../Output/chebyshev_output.csv";
+    this->FILE_NAME = "CHE";
 }

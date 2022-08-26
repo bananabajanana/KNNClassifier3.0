@@ -13,6 +13,7 @@
  *      - Implement Commands
  *      - Implement IO Services
  *      - Implement Command Line Interface
+ *      - Make sure there are no memory leaks!!! (used new)
  */
 
 class CLI {

@@ -21,11 +21,28 @@ void Classifier::setClassified(const std::vector<Item>& classified) {
     }
 }
 
-void Classifier::defItems(std::vector<Item>& unclassified, DistanceCalc& typeDis) const{
+void Classifier::defItems(std::vector<Item>& unclassified) const{
     for(int i = 0; i < unclassified.size();i++) {
-        defItem(unclassified[i], typeDis);
+        defItem(unclassified[i], *dist);
     }
 }
+
+void Classifier::setDistanceType(DistanceCalc *dist) {
+    this->dist = dist;
+}
+
+DistanceCalc *Classifier::getDistanceType() {
+    return dist;
+}
+
+void Classifier::setK(int &k) {
+    this-> k = k;
+}
+
+int Classifier::getK() {
+    return k;
+}
+
 bool Classifier::isThereClassifiedItems() {
     return classified.empty();
 }

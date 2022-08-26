@@ -14,10 +14,11 @@
  */
 class Classifier {
 private:
-    const int k;
+    int k;
     std::vector<Item> classified;
     std::vector<Item> unClassified;
     std::vector<Item> kindOfClassified;
+    DistanceCalc *dist;
 
     /**
     * Helps the "defItem" function algorithm finding the closest iris
@@ -61,7 +62,15 @@ public:
      * @param unclassified - all the unclassified items.
      * @param typeDis - whe distance method we use.
      */
-    void defItems(std::vector<Item>& unclassified, DistanceCalc& typeDis) const;
+    void defItems(std::vector<Item>& unclassified) const;
+
+    void setDistanceType(DistanceCalc *dist);
+
+    DistanceCalc *getDistanceType();
+
+    void setK(int& k);
+
+    int getK();
 
     /**
      * Creat classifier for merging unclassified.

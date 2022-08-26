@@ -13,5 +13,5 @@ const double ManhattanDistance::dist(const NPoint& p1, const NPoint& p2) const {
 }
 
 ManhattanDistance::ManhattanDistance() {
-    this->FILE_NAME = "../Output/manhattan_output.csv";
+    this->FILE_NAME = "MAN";
 }
