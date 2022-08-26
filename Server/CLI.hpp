@@ -18,7 +18,7 @@
 class CLI {
 private:
     std::vector<Command> commands;
-
+    DefaultIO *dio;
 public:
     void start();
 };

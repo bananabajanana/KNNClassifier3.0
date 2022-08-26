@@ -4,7 +4,9 @@
 #include "Server/Commands/Command.cpp"
 
 class SettingsCommand : public Command {
-
+public:
+    SettingsCommand(Classifier &classifier, DefaultIO *dio);
+    void execute() override;
 };
 
 
