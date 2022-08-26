@@ -1,11 +1,7 @@
 #include "Server/Classifier/NPoints.hpp"
 
-NPoint::NPoint(double sepalWidth, double sepalLength, double petalWidth, double petalLength)
-        : Point({sepalWidth, sepalLength, petalWidth, petalLength}), n(4)
-{
-}
 NPoint::NPoint(double* properties, int n)
-        :n(n), Point(makePoint(properties,n))
+        : N(n), Point(makePoint(properties, n))
 {
 }
 
@@ -22,5 +18,5 @@ std::vector<double> NPoint::makePoint(double* properties, int n) {
 }
 
 const int NPoint::getN() const{
-    return n;
+    return N;
 }
