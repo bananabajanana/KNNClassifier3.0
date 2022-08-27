@@ -4,7 +4,9 @@
 #include "Server/Commands/Command.hpp"
 
 class ClassifyCommand : public Command {
-
+public:
+    ClassifyCommand(Classifier &classifier, DefaultIO *dio);
+    void execute() override;
 };
 
 

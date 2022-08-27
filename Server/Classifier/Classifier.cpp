@@ -21,9 +21,9 @@ void Classifier::setClassified(const std::vector<Item>& classified) {
     }
 }
 
-void Classifier::defItems(std::vector<Item>& unclassified) const{
-    for(int i = 0; i < unclassified.size();i++) {
-        defItem(unclassified[i], *dist);
+void Classifier::defItems(){
+    for(int i = 0; i < unClassified.size();i++) {
+        defItem(unClassified[i], *dist);
     }
 }
 
@@ -51,7 +51,7 @@ bool Classifier::isThereUnclassifiedItems() {
     return unClassified.empty();
 }
 
-void Classifier::defItem(Item& item, DistanceCalc& typeDis) const{
+void Classifier::defItem(Item& item, DistanceCalc& typeDis) {
     std::vector<double> distances;
     std::vector<Item> results;
     for(auto & i : classified) {
@@ -75,8 +75,6 @@ void Classifier::defItem(Item& item, DistanceCalc& typeDis) const{
         return a.second < b.second;
     });
     item.setType(maxPair->first);
-
-
 }
 
 
@@ -95,4 +93,8 @@ int Classifier::whereMinInArr(std::vector<double>& distances) {
     }
     return 0;
 
+}
+
+const std::vector<Item> &Classifier::getOutputData() {
+    return unClassified;
 }

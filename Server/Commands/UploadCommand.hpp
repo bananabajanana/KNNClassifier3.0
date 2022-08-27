@@ -4,7 +4,8 @@
 #include "Server/Commands/Command.cpp"
 
 class UploadCommand : public Command {
-
+public:
+    UploadCommand(Classifier &classifier, DefaultIO *dio);
 };
 
 

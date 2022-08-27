@@ -33,7 +33,7 @@ private:
     * @param item - The flower.
     * @param typeDis - The distance method we are going to use.
     */
-    void defItem(Item& item, DistanceCalc& typeDis) const;
+    void defItem(Item& item, DistanceCalc& typeDis);
 public:
     /**
     * set a classified items.
@@ -62,7 +62,7 @@ public:
      * @param unclassified - all the unclassified items.
      * @param typeDis - whe distance method we use.
      */
-    void defItems(std::vector<Item>& unclassified) const;
+    void defItems();
 
     void setDistanceType(DistanceCalc *dist);
 
@@ -71,6 +71,8 @@ public:
     void setK(int& k);
 
     int getK();
+
+    const std::vector<Item>& getOutputData();
 
     /**
      * Creat classifier for merging unclassified.

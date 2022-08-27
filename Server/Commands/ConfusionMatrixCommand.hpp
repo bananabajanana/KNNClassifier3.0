@@ -4,7 +4,8 @@
 #include "Server/Commands/Command.cpp"
 
 class ConfusionMatrixCommand : public Command{
-
+public:
+    ConfusionMatrixCommand(Classifier &classifier, DefaultIO *dio);
 };
 
 

@@ -4,7 +4,8 @@
 #include "Server/Commands/Command.cpp"
 
 class DownloadCommand : public Command {
-
+public:
+    DownloadCommand(Classifier &classifier, DefaultIO *dio);
 };
 
 

@@ -4,7 +4,9 @@
 #include "Server/Commands/Command.cpp"
 
 class DisplayCommand : public Command {
-
+public:
+    DisplayCommand(Classifier &classifier, DefaultIO *dio);
+    void execute() override;
 };
 
 

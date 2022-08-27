@@ -7,9 +7,8 @@
 /**
  * TODO:
  *      - Generalize old classifier
- *          - work with general string instead of enum.
+ *          - change naming to "trainData, inputTestData, outputTestData"
  *          - input function needs to figure out nth rank.
- *          - work with 3 vectors.
  *      - Implement Commands
  *      - Implement IO Services
  *      - Implement Command Line Interface
