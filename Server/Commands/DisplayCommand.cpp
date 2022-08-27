@@ -3,6 +3,7 @@
 DisplayCommand::DisplayCommand(Classifier &classifier, DefaultIO *dio) : Command(classifier, dio, "display results") {}
 
 void DisplayCommand::execute() {
+    //region Edge Case-handling
     if(!classifier.isThereTestData()) {
         dio->write("No testing data was given!\n");
         return;
@@ -10,6 +11,7 @@ void DisplayCommand::execute() {
         dio->write("The testing data was not classified!\nPlease select \"classify data\" before displaying results\n");
         return;
     }
+    //endregion
 
     const std::vector<Item> toPrint = classifier.getTestOutputData();
     std::string output = "";

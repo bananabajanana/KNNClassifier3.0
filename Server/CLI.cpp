@@ -2,6 +2,7 @@
 
 void CLI::start() {
     while(true) {
+        //region Menu Printing
         std::string menu = "Welcome to the KNN Classifier Server. Please chose an option:\n";
         for(int i = 1; i <= commands.size(); i++) {
             menu += i + ". ";
@@ -10,13 +11,19 @@ void CLI::start() {
         menu += (commands.size()+1) + ". exit\n";
 
         dio->write(menu);
+        //endregion
+
+        //region Chose command
         std::string decision = dio->read();
         try {
             int numDecision = std::stoi(decision) - 1;
+
+            //exit the server/close the connection
             if (numDecision == commands.size()) {
-                //exit the server/close the connection
                 return;
             }
+
+
             if(numDecision < 0 || numDecision > commands.size()) {
                 commands[numDecision].execute();
             } else {
@@ -25,5 +32,6 @@ void CLI::start() {
         } catch(std::exception& e) {
             dio->write("Please select an option by writing a number.");
         }
+        //endregion
     }
 }

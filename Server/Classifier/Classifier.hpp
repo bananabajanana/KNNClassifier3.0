@@ -65,16 +65,41 @@ public:
      */
     void defItems();
 
+    /**
+     * Setter for the Distance Type
+     * @param dist - distance calculator
+     */
     void setDistanceType(DistanceCalc *dist);
 
+    /**
+     * @return Distance calculator
+     */
     DistanceCalc *getDistanceType();
 
+    /**
+     * Setter for the K value
+     * @param k - new K
+     */
     void setK(int& k);
 
+    /**
+     * @return K value
+     */
     int getK();
 
+    /**
+     * @return the Classified Test Data vector
+     */
     const std::vector<Item>& getTestOutputData();
+
+    /**
+     * @return the Given Test Data (with user-given types)
+     */
     const std::vector<Item>& getTestInputData();
+
+    /**
+     * @return the Training Data.
+     */
     const std::vector<Item>& getTrainingData();
 
     /**
@@ -83,8 +108,17 @@ public:
      */
     Classifier(int k);
 
+    /**
+     * @return Whether the last given test data was classified by the classifier.
+     */
     const bool wasClassified();
 
+    /**
+     * !!!!!MICHALLL!!!!
+     *      might be more efficient to use maps, but need the types with a certain order...
+     * @param items a vector of items with different types
+     * @return a vector of the different types.
+     */
     static const std::vector<std::string> getTypes(const std::vector<Item> &items);
 };
 

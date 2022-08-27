@@ -5,6 +5,9 @@
 
 class DisplayCommand : public Command {
 public:
+    /**
+     * Constructor
+     */
     DisplayCommand(Classifier &classifier, DefaultIO *dio);
     void execute() override;
 };

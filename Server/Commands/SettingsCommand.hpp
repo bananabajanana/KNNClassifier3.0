@@ -9,8 +9,18 @@
 
 class SettingsCommand : public Command {
 public:
-    static std::string stringSettings(Classifier &classifier);
+    /**
+     * Constructor.
+     */
     SettingsCommand(Classifier &classifier, DefaultIO *dio);
+
+    /**
+     * Returns a string representation of the current classifier settings
+     * @param classifier classifier.
+     * @return representation of settings.
+     */
+    static std::string stringSettings(Classifier &classifier);
+
     void execute() override;
 };
 

@@ -3,21 +3,23 @@
 ConfusionMatrixCommand::ConfusionMatrixCommand(Classifier &classifier, DefaultIO *dio) : Command(classifier, dio, "display algorithm confusion matrix"){}
 
 void ConfusionMatrixCommand::execute() {
-    //region GettingVars
+    //region Edge Case-handling
     if(!classifier.isThereTestData()) {
         dio->write("No testing data was given!\n");
         return;
     } else if(!classifier.wasClassified()) {
         classifier.defItems();
     }
+    //endregion
 
+    //region Var Initialization
     std::vector<Item> results = classifier.getTestOutputData();
     std::vector<Item> answers = classifier.getTestInputData();
     std::vector<std::string> types = classifier.getTypes(answers);
 
     int confusionCount[types.size()][types.size() + 1];
 
-    //might need to figure out memset later
+    //might need to figure out memset later...
     for(int i = 0; i < types.size(); i++) {
         for(int j = 0; j < types.size() + 1; j++) {
             confusionCount[i][j] = 0;
