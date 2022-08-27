@@ -5,6 +5,8 @@
 #include <fstream>
 #include <cstring>
 UploadCommand::UploadCommand(Classifier &classifier, DefaultIO *dio) : Command(classifier, dio, "upload an unclassified csv data file")
+{}
+void UploadCommand::execute()
 {
     std::string message = "Please upload your local tran CSV file.";
     std::vector<Item> content;

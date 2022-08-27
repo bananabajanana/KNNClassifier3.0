@@ -5,9 +5,8 @@
 
 class UploadCommand : public Command {
 private:
-    std::vector<Item>& updateFromFile(const std::string& path);
     Item& itemFromLine(char *st);
-        public:
+public:
     UploadCommand(Classifier &classifier, DefaultIO *dio);
     void execute() override;
 };
