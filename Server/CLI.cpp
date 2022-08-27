@@ -1,6 +1,7 @@
 #include "CLI.hpp"
-void CLI::main() {
-    start();
+int main() {
+    CLI ohad;
+    ohad.start();
 }
 
 void CLI::start() {

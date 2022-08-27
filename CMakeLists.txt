@@ -26,8 +26,6 @@ add_executable(Server
         Server/IOServices/SocketIO.hpp
         Server/IOServices/StandardIO.cpp
         Server/IOServices/StandardIO.hpp
-        Server/CLI.cpp
-        Server/CLI.hpp
         Server/Classifier/Classifier.cpp
         Server/Classifier/Classifier.hpp
         Server/Classifier/Item.cpp
@@ -41,4 +39,6 @@ add_executable(Server
         Server/Classifier/srcDistances/distCalculators/EuclideanDistance.cpp
         Server/Classifier/srcDistances/distCalculators/EuclideanDistance.hpp
         Server/Classifier/srcDistances/distCalculators/ManhattanDistance.cpp
-        Server/Classifier/srcDistances/distCalculators/ManhattanDistance.hpp)
+        Server/Classifier/srcDistances/distCalculators/ManhattanDistance.hpp
+        Server/CLI.hpp
+        Server/CLI.cpp)
