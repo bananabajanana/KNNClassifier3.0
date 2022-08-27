@@ -4,8 +4,12 @@
 #include "Server/Commands/Command.cpp"
 
 class UploadCommand : public Command {
-public:
+private:
+    std::vector<Item>& updateFromFile(const std::string& path);
+    Item& UploadCommand::itemFromLine(char *st);
+        public:
     UploadCommand(Classifier &classifier, DefaultIO *dio);
+    void execute() override;
 };
 
 
