@@ -3,14 +3,21 @@
 
 #include <vector>
 #include "Server/Commands/Command.hpp"
+#include "Server/Commands/ClassifyCommand.hpp"
+#include "Server/Commands/ConfusionMatrixCommand.hpp"
+#include "Server/Commands/DisplayCommand.hpp"
+#include "Server/Commands/DownloadCommand.hpp"
+#include "Server/Commands/SettingsCommand.hpp"
+#include "Server/Commands/UploadCommand.hpp"
+#include "Server/IOServices/StandardIO.hpp"
 
 /**
  * TODO:
  *      - Generalize old classifier
  *          - input function needs to figure out nth rank.
- *      - Implement Commands
- *      - Implement IO Services
- *      - Implement Command Line Interface
+ *      - Implement Download Command
+ *      - Implement SocketIO
+ *      - Add threading to commands
  *      - Make sure there are no memory leaks!!! (used new)
  *
  * MICHALLLLLL:
@@ -19,13 +26,14 @@
 
 class CLI {
 private:
-    std::vector<Command> commands;
+    std::vector<Command *> commands;
     DefaultIO *dio;
 public:
     /**
      * Starts the Command line interface interaction between the server and a single user.
      */
     void start();
+    CLI(DefaultIO *dio);
 };
 
 

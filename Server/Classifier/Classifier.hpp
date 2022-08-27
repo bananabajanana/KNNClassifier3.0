@@ -6,6 +6,7 @@
 #include <cmath>
 #include "Server/Classifier/Item.hpp"
 #include "Server/Classifier/srcDistances/DistanceCalc.hpp"
+#include "Server/Classifier/srcDistances/distCalculators/EuclideanDistance.hpp"
 
 #define MAX_NUM 1.7976931348623157E+308
 

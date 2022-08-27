@@ -3,7 +3,7 @@
 #include <algorithm>
 
 Classifier::Classifier(int k) : k(k), wasTestClassified(false) {
-
+    this->dist = new EuclideanDistance();
 }
 void Classifier::setTestData(const std::vector<Item>& unClassified) {
     this->outputTestData.clear();

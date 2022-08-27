@@ -8,7 +8,7 @@ UploadCommand::UploadCommand(Classifier &classifier, DefaultIO *dio) : Command(c
 {}
 void UploadCommand::execute()
 {
-    std::string message = "Please upload your local tran CSV file.";
+    std::string message = "Please upload your local train CSV file.\n";
     std::vector<Item> content;
     dio->write(message);
     std::string input = dio->read();

@@ -2,7 +2,7 @@
 
 std::string StandardIO::read() {
     std::string st;
-    std::cin >> st;
+    std::getline(std::cin, st);
     return st;
 }
 

@@ -4,27 +4,31 @@ SettingsCommand::SettingsCommand(Classifier &classifier, DefaultIO *dio) : Comma
 }
 
 std::string SettingsCommand::stringSettings(Classifier &classifier) {
-    std::string output = "The current KNN parameters are: K = " + classifier.getK();
+    std::string output = "The current KNN parameters are: K = " + std::to_string(classifier.getK());
     output += ", distance metric = " + classifier.getDistanceType()->fileName();
+    output += "\n";
     return output;
 }
 
 void SettingsCommand::execute() {
     std::string message = stringSettings(classifier);
     dio->write(message);
-    std::string input = dio->read();
-    if (input.empty()) {
-        return;
-    }
+    std::string input;
+
     while (true) {
+        input = dio->read();
+        if (input.empty()) {
+            return;
+        }
+
         std::string kValue;
         std::string metValue;
         try {
-            char *messagePtr = strdup(message.c_str());
-            kValue = strtok(messagePtr, " ");
+            char *inputPtr = strdup(input.c_str());
+            kValue = strtok(inputPtr, " ");
             metValue = strtok(nullptr, " ");
         } catch (std::exception &e) {
-            dio->write("Invalid amount of arguments. Should be \"{k} {metric}\"");
+            dio->write("Invalid amount of arguments. Should be \"{k} {metric}\"\n");
             continue;
         }
 
@@ -32,16 +36,16 @@ void SettingsCommand::execute() {
         try {
             newK = std::stoi(kValue);
             if (newK < 1 || newK > 10) {
-                dio->write("Invalid value for K");
+                dio->write("Invalid value for K\n");
                 continue;
             }
         } catch (std::exception &e) {
-            dio->write("Invalid value for K");
+            dio->write("Invalid value for K\n");
             continue;
         }
 
         if(metValue != "EUC" && metValue != "MAN" && metValue != "CHE") {
-            dio->write("Invalid value for distance metric");
+            dio->write("Invalid value for distance metric\n");
             continue;
         }
 
@@ -57,5 +61,6 @@ void SettingsCommand::execute() {
             classifier.setDistanceType(new ChebyshevDistance);
         }
         delete old;
+        return;
     }
 }

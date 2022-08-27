@@ -1,7 +1,17 @@
 #include "CLI.hpp"
 int main() {
-    CLI ohad;
+    CLI ohad(new StandardIO);
     ohad.start();
+}
+
+CLI::CLI(DefaultIO *dio) : dio(dio) {
+    Classifier c(5);
+
+    commands.push_back(new UploadCommand(c, dio));
+    commands.push_back(new SettingsCommand(c, dio));
+    commands.push_back(new ClassifyCommand(c, dio));
+    commands.push_back(new DisplayCommand(c, dio));
+    commands.push_back(new ConfusionMatrixCommand(c, dio));
 }
 
 void CLI::start() {
@@ -9,15 +19,15 @@ void CLI::start() {
         //region Menu Printing
         std::string menu = "Welcome to the KNN Classifier Server. Please chose an option:\n";
         for(int i = 1; i <= commands.size(); i++) {
-            menu += i + ". ";
-            menu += commands[i].getDescription() + "\n";
+            menu += std::to_string(i) + ". ";
+            menu += commands[i-1]->getDescription() + "\n";
         }
-        menu += (commands.size()+1) + ". exit\n";
+        menu += std::to_string(commands.size()+1) + ". exit\n";
 
         dio->write(menu);
         //endregion
 
-        //region Chose command
+        //region Choose command
         std::string decision = dio->read();
         try {
             int numDecision = std::stoi(decision) - 1;
@@ -27,9 +37,8 @@ void CLI::start() {
                 return;
             }
 
-
-            if(numDecision < 0 || numDecision > commands.size()) {
-                commands[numDecision].execute();
+            if(numDecision >= 0 && numDecision <= commands.size()) {
+                commands[numDecision]->execute();
             } else {
                 dio->write("Please chose a valid option.");
             }
