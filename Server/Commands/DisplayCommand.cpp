@@ -3,8 +3,11 @@
 DisplayCommand::DisplayCommand(Classifier &classifier, DefaultIO *dio) : Command(classifier, dio, "display results") {}
 
 void DisplayCommand::execute() {
-    if(!classifier.isThereUnclassifiedItems()) {
-        dio->write("No testing data was given!");
+    if(!classifier.isThereTestData()) {
+        dio->write("No testing data was given!\n");
+        return;
+    } else if(!classifier.wasClassified()) {
+        dio->write("The testing data was not classified!\nPlease select \"classify data\" before displaying results\n");
         return;
     }
 

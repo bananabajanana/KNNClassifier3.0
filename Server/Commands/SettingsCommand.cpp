@@ -3,9 +3,14 @@
 SettingsCommand::SettingsCommand(Classifier &classifier, DefaultIO *dio) : Command(classifier, dio, "algorithm settings") {
 }
 
+std::string SettingsCommand::stringSettings(Classifier &classifier) {
+    std::string output = "The current KNN parameters are: K = " + classifier.getK();
+    output += ", distance metric = " + classifier.getDistanceType()->fileName();
+    return output;
+}
+
 void SettingsCommand::execute() {
-    std::string message = "The current KNN parameters are: K = " + classifier.getK();
-    message += ", distance metric = " + classifier.getDistanceType().fileName();
+    std::string message = stringSettings(classifier) + "\n";
     dio->write(message);
     std::string input = dio->read();
     if (input.empty()) {

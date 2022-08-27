@@ -9,6 +9,7 @@
 
 class SettingsCommand : public Command {
 public:
+    static std::string stringSettings(Classifier &classifier);
     SettingsCommand(Classifier &classifier, DefaultIO *dio);
     void execute() override;
 };

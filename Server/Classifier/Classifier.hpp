@@ -15,6 +15,7 @@
 class Classifier {
 private:
     int k;
+    bool wasTestClassified;
     std::vector<Item> trainingData;
     std::vector<Item> outputTestData;
     std::vector<Item> inputTestData;
@@ -49,12 +50,12 @@ public:
      * if there is Unclassified items.
      * @return true or false Unclassified items that were declared.
      */
-    bool isThereUnclassifiedItems();
+    bool isThereTestData();
     /**
     * if there is trainingData items.
     * @return true or false trainingData items that were declared.
     */
-    bool isThereClassifiedItems();
+    bool isThereTrainingData();
 
 
     /**
@@ -81,6 +82,10 @@ public:
      * @param k - the amount of items that we are using.
      */
     Classifier(int k);
+
+    const bool wasClassified();
+
+    static const std::vector<std::string> getTypes(const std::vector<Item> &items);
 };
 
 #endif

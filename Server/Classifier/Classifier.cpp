@@ -2,7 +2,7 @@
 #include <map>
 #include <algorithm>
 
-Classifier::Classifier(int k) : k(k) {
+Classifier::Classifier(int k) : k(k), wasTestClassified(false) {
 
 }
 void Classifier::setTestData(const std::vector<Item>& unClassified) {
@@ -12,6 +12,7 @@ void Classifier::setTestData(const std::vector<Item>& unClassified) {
         this->outputTestData.push_back(item);
         this->inputTestData.push_back(item);
     }
+    wasTestClassified = false;
 }
 
 void Classifier::setTrainingData(const std::vector<Item>& classified) {
@@ -25,6 +26,7 @@ void Classifier::defItems(){
     for(int i = 0; i < outputTestData.size(); i++) {
         defItem(outputTestData[i], *dist);
     }
+    wasTestClassified = true;
 }
 
 void Classifier::setDistanceType(DistanceCalc *dist) {
@@ -43,11 +45,11 @@ int Classifier::getK() {
     return k;
 }
 
-bool Classifier::isThereClassifiedItems() {
+bool Classifier::isThereTrainingData() {
     return trainingData.empty();
 }
 
-bool Classifier::isThereUnclassifiedItems() {
+bool Classifier::isThereTestData() {
     return outputTestData.empty();
 }
 
@@ -105,4 +107,17 @@ const std::vector<Item> &Classifier::getTestInputData() {
 
 const std::vector<Item> &Classifier::getTrainingData() {
     return trainingData;
+}
+
+const bool Classifier::wasClassified() {
+    return wasTestClassified;
+}
+
+const std::vector<std::string> Classifier::getTypes(const std::vector<Item> &items) {
+    std::vector<std::string> output;
+    for(int i = 0; i < items.size(); i++) {
+        if(!std::count(output.begin(), output.end(), items[i].getTypeOfItem())) {
+            output.push_back(items[i].getTypeOfItem());
+        }
+    }
 }
