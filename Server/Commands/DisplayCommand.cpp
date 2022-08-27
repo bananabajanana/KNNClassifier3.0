@@ -8,7 +8,7 @@ void DisplayCommand::execute() {
         return;
     }
 
-    const std::vector<Item> toPrint = classifier.getOutputData();
+    const std::vector<Item> toPrint = classifier.getTestOutputData();
     std::string output = "";
     for(int i = 0; i<toPrint.size(); i++) {
         output += (i+1);

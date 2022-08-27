@@ -15,9 +15,9 @@
 class Classifier {
 private:
     int k;
-    std::vector<Item> classified;
-    std::vector<Item> unClassified;
-    std::vector<Item> kindOfClassified;
+    std::vector<Item> trainingData;
+    std::vector<Item> outputTestData;
+    std::vector<Item> inputTestData;
     DistanceCalc *dist;
 
     /**
@@ -36,23 +36,23 @@ private:
     void defItem(Item& item, DistanceCalc& typeDis);
 public:
     /**
-    * set a classified items.
-    * @param classified - the classified items.
+    * set a trainingData items.
+    * @param classified - the trainingData items.
     */
-    void setClassified(const std::vector<Item>& classified);
+    void setTrainingData(const std::vector<Item>& classified);
     /**
     * set a unclassified items.
     * @param unClassified - the unclassified items.
     */
-    void setUnclassified(const std::vector<Item>& unClassified);
+    void setTestData(const std::vector<Item>& unClassified);
     /**
      * if there is Unclassified items.
      * @return true or false Unclassified items that were declared.
      */
     bool isThereUnclassifiedItems();
     /**
-    * if there is classified items.
-    * @return true or false classified items that were declared.
+    * if there is trainingData items.
+    * @return true or false trainingData items that were declared.
     */
     bool isThereClassifiedItems();
 
@@ -72,7 +72,9 @@ public:
 
     int getK();
 
-    const std::vector<Item>& getOutputData();
+    const std::vector<Item>& getTestOutputData();
+    const std::vector<Item>& getTestInputData();
+    const std::vector<Item>& getTrainingData();
 
     /**
      * Creat classifier for merging unclassified.

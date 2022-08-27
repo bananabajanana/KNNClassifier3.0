@@ -7,12 +7,14 @@
 /**
  * TODO:
  *      - Generalize old classifier
- *          - change naming to "trainData, inputTestData, outputTestData"
  *          - input function needs to figure out nth rank.
  *      - Implement Commands
  *      - Implement IO Services
  *      - Implement Command Line Interface
  *      - Make sure there are no memory leaks!!! (used new)
+ *
+ * MICHALLLLLL:
+ *      - I changed the names of the vectors to "TrainingData, inputTestData, outputTestData"
  */
 
 class CLI {

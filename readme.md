@@ -62,7 +62,7 @@ $ cmake ..
 $ make -j && make Server && make Client {IPath} {OPath}
 $ ./Server
 ```
-Where {IPath} should be replaced with the path to the input file to be classified, and {OPath} with the path to output the data to.
+Where {IPath} should be replaced with the path to the input file to be trainingData, and {OPath} with the path to output the data to.
 It is also possible to keep not specify {IPath} and {OPath} arguments, which will cause the program to work with the default arguments specified above.
 
 After this, the compilation and linkage of the codes is complete and the Server is running.

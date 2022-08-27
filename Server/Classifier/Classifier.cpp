@@ -5,25 +5,25 @@
 Classifier::Classifier(int k) : k(k) {
 
 }
-void Classifier::setUnclassified(const std::vector<Item>& unClassified) {
-    this->unClassified.clear();
-    this->kindOfClassified.clear();
+void Classifier::setTestData(const std::vector<Item>& unClassified) {
+    this->outputTestData.clear();
+    this->inputTestData.clear();
     for(auto& item:unClassified) {
-        this->unClassified.push_back(item);
-        this->kindOfClassified.push_back(item);
+        this->outputTestData.push_back(item);
+        this->inputTestData.push_back(item);
     }
 }
 
-void Classifier::setClassified(const std::vector<Item>& classified) {
-    this->classified.clear();
+void Classifier::setTrainingData(const std::vector<Item>& classified) {
+    this->trainingData.clear();
     for(auto& item:classified) {
-        this->classified.push_back(item);
+        this->trainingData.push_back(item);
     }
 }
 
 void Classifier::defItems(){
-    for(int i = 0; i < unClassified.size();i++) {
-        defItem(unClassified[i], *dist);
+    for(int i = 0; i < outputTestData.size(); i++) {
+        defItem(outputTestData[i], *dist);
     }
 }
 
@@ -44,22 +44,22 @@ int Classifier::getK() {
 }
 
 bool Classifier::isThereClassifiedItems() {
-    return classified.empty();
+    return trainingData.empty();
 }
 
 bool Classifier::isThereUnclassifiedItems() {
-    return unClassified.empty();
+    return outputTestData.empty();
 }
 
 void Classifier::defItem(Item& item, DistanceCalc& typeDis) {
     std::vector<double> distances;
     std::vector<Item> results;
-    for(auto & i : classified) {
+    for(auto & i : trainingData) {
         distances.push_back(typeDis.dist(item.getPoint(), i.getPoint()));
     }
 
     for(int i=0;i<k;i++) {
-        results.push_back(classified[whereMinInArr(distances)]);
+        results.push_back(trainingData[whereMinInArr(distances)]);
     }
 
     std::map<std::string, double> mapTypes;
@@ -95,6 +95,14 @@ int Classifier::whereMinInArr(std::vector<double>& distances) {
 
 }
 
-const std::vector<Item> &Classifier::getOutputData() {
-    return unClassified;
+const std::vector<Item> &Classifier::getTestOutputData() {
+    return outputTestData;
+}
+
+const std::vector<Item> &Classifier::getTestInputData() {
+    return inputTestData;
+}
+
+const std::vector<Item> &Classifier::getTrainingData() {
+    return trainingData;
 }
