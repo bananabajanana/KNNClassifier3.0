@@ -1,7 +1,7 @@
 #ifndef KNNCLASSIFIER3_0_DISPLAYCOMMAND_HPP
 #define KNNCLASSIFIER3_0_DISPLAYCOMMAND_HPP
 
-#include "Server/Commands/Command.cpp"
+#include "Server/Commands/Command.hpp"
 
 class DisplayCommand : public Command {
 public:

@@ -1,4 +1,7 @@
 #include "CLI.hpp"
+void CLI::main() {
+    start();
+}
 
 void CLI::start() {
     while(true) {

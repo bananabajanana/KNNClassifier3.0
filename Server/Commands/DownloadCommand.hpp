@@ -1,7 +1,7 @@
 #ifndef KNNCLASSIFIER3_0_DOWNLOADCOMMAND_HPP
 #define KNNCLASSIFIER3_0_DOWNLOADCOMMAND_HPP
 
-#include "Server/Commands/Command.cpp"
+#include "Server/Commands/Command.hpp"
 
 class DownloadCommand : public Command {
 public:

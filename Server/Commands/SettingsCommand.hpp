@@ -1,7 +1,7 @@
 #ifndef KNNCLASSIFIER3_0_SETTINGSCOMMAND_HPP
 #define KNNCLASSIFIER3_0_SETTINGSCOMMAND_HPP
 
-#include "Server/Commands/Command.cpp"
+#include "Server/Commands/Command.hpp"
 #include "Server/Classifier/srcDistances/distCalculators/EuclideanDistance.hpp"
 #include "Server/Classifier/srcDistances/distCalculators/ChebyshevDistance.hpp"
 #include "Server/Classifier/srcDistances/distCalculators/ManhattanDistance.hpp"
