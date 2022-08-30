@@ -24,15 +24,16 @@
 #define CLIENT_TIME_OUT 15
 #define MAX_CLIENTS_NUM 1024
 #include "pthread.h"
-
+#include <map>
 class ServerProcess {
 private:
     struct ThrParams {
-        ThrParams() : buf(0){}
+        ThrParams() : buf(0), cli(NULL), socket(-1){}
         char* buf;
-        CLI cli;
+        CLI* cli;
+        int socket;
     };
-
+    static std::map<int, int> threadsMap;
 
     int listeningSock;
     int client_socks[MAX_CLIENTS_NUM];
@@ -47,7 +48,7 @@ private:
     struct timeval tv;
 
     void releaseResources();
-    int OnInputFromClient(int fd);
+    int OnInputFromClient(const int fd);
     int searchMaxFd();
     /**
      * Creating the listening sock and do the first steps that a server need to do - bind.

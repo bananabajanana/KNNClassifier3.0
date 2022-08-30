@@ -41,4 +41,4 @@ add_executable(Server
         Server/Classifier/srcDistances/distCalculators/ManhattanDistance.cpp
         Server/Classifier/srcDistances/distCalculators/ManhattanDistance.hpp
         Server/CLI.hpp
-        Server/CLI.cpp Server/ServerCode/ServerProcess.cpp Server/ServerCode/ServerProcess.hpp Server/ServerCode/ThreadPool.cpp Server/ServerCode/ThreadPool.hpp Server/ServerCode/WorkingThread.cpp Server/ServerCode/WorkingThread.hpp)
+        Server/CLI.cpp Server/ServerCode/ServerProcess.cpp Server/ServerCode/ServerProcess.hpp Server/toDeleteLater/ThreadPool.cpp Server/toDeleteLater/ThreadPool.hpp Server/toDeleteLater/WorkingThread.cpp Server/toDeleteLater/WorkingThread.hpp)

@@ -1,19 +1,21 @@
 #include "ServerProcess.hpp"
+#include <thread>
+#include <mutex>
 
 ServerProcess::ServerProcess() {
     listeningSock = serverInitialization(SERVER_PORT);
-    listenSoc(listeningSock );
+    listenSoc(listeningSock);
+
     memset((void*)client_socks,0,sizeof(client_socks));
     //select() requires the size of the array of sockets to be passed as the maximum socket number plus one.
     //see the man page of select.
-    maxFd=0;
+    maxFd = 0;
     maxFdsPlusOne = listeningSock + 1;
     clientsNum = 0;
     FD_ZERO(&rfds);
     FD_SET(listeningSock, &rfds);
     tv.tv_sec = CLIENT_TIME_OUT;
     tv.tv_usec = 0;
-    threadId=-1;
 }
 
 
@@ -68,22 +70,6 @@ int ServerProcess::acceptSoc(int sock, struct sockaddr_in client_sin) {
 }
 
 
-Item ServerProcess::defFlowerSoc(char* properties, Classifier machine) {
-    Item unclassified = fc.flowerFromLine(properties);
-    DistanceCalc *d = ((DistanceCalc *) new EuclideanDistance);
-    machine.defFlower(unclassified, *d);
-    return unclassified;
-}
-
-
-void ServerProcess::sendSoc(Item unclassified, int client_sock) {
-    int message_len = strlen(fc.getType(unclassified.getTypeOfIris()));
-    int sent_bytes = send(client_sock, fc.getType(unclassified.getTypeOfIris()), message_len, 0);
-
-    if (sent_bytes < 0) {
-        perror("error sending to client");
-    }
-}
 int ServerProcess::searchMaxFd() {
     int i=maxFd;
     for(;i>=0;i--) {
@@ -93,7 +79,7 @@ int ServerProcess::searchMaxFd() {
     }
     return i;
 }
-int ServerProcess::OnInputFromClient(int fd) {
+int ServerProcess::OnInputFromClient(const int fd) {
     char buffer[128];
     int expected_data_len = sizeof(buffer);
     int read_bytes = 1;
@@ -132,14 +118,16 @@ int ServerProcess::OnInputFromClient(int fd) {
         memcpy(threadInputBuffer,buffer,read_bytes);
 
         ThrParams* thrParams = new ThrParams;
-        thrParams->buf=threadInputBuffer;
-        thrParams->cli=new CLI();
+        thrParams->buf = threadInputBuffer;
+        thrParams->cli = new CLI(new SocketIo(fd));
+        thrParams->socket=fd;
         pthread_t threadId;
         int res = pthread_create(&threadId, NULL,threadFunc, thrParams);
         if(res == -1) {
             perror("pthread_create failed");
             return -1;
         }
+        threadsMap.insert(std::pair<int, int>(threadId, threadId));
         //add to map threadId
 
 
@@ -192,14 +180,21 @@ void ServerProcess::ServerRunner(Classifier machine) {
     } // while(true)
 }
 //static
-void* ServerProcess::threadFunc(void* arg) {
+void* ServerProcess::threadFunc(void* args) {
     ThrParams* params = (ThrParams*)args;
-    Item unclassified = defFlowerSoc(buffer, machine, fc);
+
+    Item unclassified = defFlowerSoc(params->buf, machine, fc);
     sendSoc(unclassified, fd);
 
     delete params->buf;
+    delete params->cli;
+    delete params;
     // also CLI delete
 
     pthread_t pid = pthread_self();
+    std::mutex locker;
+    locker.lock();
+    threadsMap.erase(pid);
+    locker.unlock();
     //remove pid from static map
 }
