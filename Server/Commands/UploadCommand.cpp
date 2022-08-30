@@ -28,15 +28,20 @@ void UploadCommand::execute()
 
 Item& UploadCommand::itemFromLine(char *st) {
     char * val;
-    double parameters[4];
+    std::vector<std::string> parameters;
     val = strtok(st, ",");
-    for(double& param : parameters) {
-        param = std::stod(val);
+    while( val != NULL ) {
         val = strtok(nullptr, ",");
+        parameters.push_back(val);
     }
-    Item* output = new Item(parameters, 4);
-    if (val != nullptr) {
-        std::string temp(val);
+    double p[parameters.size()-1];
+    for(int i=0; i<parameters.size() - 1;i++) {
+        p[0]= std::stod(val);
+    }
+    Item* output = new Item(p, parameters.size()-1);
+    auto it = parameters[parameters.size()-1].begin();
+    if(!std::isdigit(*it)) {
+        std::string temp(parameters[parameters.size()-1]);
         output->setType(temp);
     }
     return *output;
