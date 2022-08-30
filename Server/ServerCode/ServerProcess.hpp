@@ -19,7 +19,7 @@
 #include "Server/IOServices/SocketIO.hpp"
 #include "Server/Classifier/srcDistances/DistanceCalc.hpp"
 #include "Server/Classifier/Classifier.hpp"
-#include "Server/CLI.hpp"
+#include "CLI.hpp"
 
 #define SERVER_PORT 6969
 #define CLIENT_TIME_OUT 15
@@ -75,7 +75,7 @@ public:
      * @param machine - the Classifier which
      * @param fc - the object that can help us to convert input to things that we can work with.
      */
-    void ServerRunner(Classifier machine);
+    void ServerRunner();
 
     static void* threadFunc(void* arg);
     void deleteSocket(int fd);

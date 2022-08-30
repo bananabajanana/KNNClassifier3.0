@@ -94,7 +94,7 @@ int ServerProcess::OnInputFromClient(const int fd) {
     //add to map threadId
 }
 
-void ServerProcess::ServerRunner(Classifier machine) {
+void ServerProcess::ServerRunner() {
 
     while(true) {
         int retval = select(maxFdsPlusOne, &rfds, NULL, NULL, &tv);

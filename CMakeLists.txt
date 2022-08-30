@@ -40,11 +40,13 @@ add_executable(Server
         Server/Classifier/srcDistances/distCalculators/EuclideanDistance.hpp
         Server/Classifier/srcDistances/distCalculators/ManhattanDistance.cpp
         Server/Classifier/srcDistances/distCalculators/ManhattanDistance.hpp
-        Server/CLI.hpp
-        Server/CLI.cpp
+        Server/ServerCode/CLI.hpp
+        Server/ServerCode/CLI.cpp
         Server/ServerCode/ServerProcess.cpp
-        Server/ServerCode/ServerProcess.hpp)
+        Server/ServerCode/ServerProcess.hpp
+        Server/ServerMain.cpp)
 
 add_executable(Client
         Client/Client.hpp
-        Client/Client.cpp)
+        Client/Client.cpp
+        Client/ClientMain.cpp)

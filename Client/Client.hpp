@@ -53,13 +53,6 @@ public:
     ClientProcess(char* ip_address, int port_no);
 
     /**
-     * Overwrite the default input and output paths
-     * @param unclassifiedPath new input path
-     * @param outputPath new output path
-     */
-    void setPaths(std::string unclassifiedPath, std::string outputPath);
-
-    /**
      * Runs a demo functionality of the client.
      * This opens the input file, and feeds each flower information line from it to the server.
      * Then, when receiving the flower's class, it writes it to an output file.
