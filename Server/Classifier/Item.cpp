@@ -21,3 +21,20 @@ Item::Item(double* properties,int n)
 {
     this->type = "";
 }
+
+Item::Item(std::vector<double> properties, std::string type)
+        :character(properties)
+{
+    this->type = type;
+}
+
+Item::Item(std::vector<double> properties)
+        :character(properties)
+{
+    this->type = "";
+}
+void Item::pushProperty(double property)
+
+{
+    character.pushProperty(property);
+}

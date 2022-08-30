@@ -7,10 +7,9 @@
  */
 class NPoint {
 private:
-    const int N;
-    const std::vector<double> Point;
+     std::vector<double> Point;
 public:
-
+    NPoint(std::vector<double> properties);
     /**
      * Returns the point.
      * @return  point.
@@ -30,6 +29,7 @@ public:
      */
     NPoint(double* properties, int n);
 
+
     /**
      * Get array of N properties and makes from that a point that is a vector.
      * @param properties - the properties of a point.
@@ -37,6 +37,7 @@ public:
      * @return the point as vector.
      */
     static std::vector<double> makePoint(double* properties, int n);
+    void pushProperty(double property);
 };
 
 #endif

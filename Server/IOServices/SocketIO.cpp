@@ -13,6 +13,7 @@ std::string SocketIO::read() {
 }
 
 void SocketIO::write(std::string message) {
+    //message = message + "\003";
     char* toSend = const_cast<char *>(message.c_str());
     int message_len = strlen(toSend);
     int sent_bytes = send(socket, toSend, message_len, 0);

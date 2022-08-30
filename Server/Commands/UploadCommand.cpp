@@ -31,18 +31,22 @@ Item& UploadCommand::itemFromLine(char *st) {
     std::vector<std::string> parameters;
     val = strtok(st, ",");
     while( val != NULL ) {
-        val = strtok(nullptr, ",");
         parameters.push_back(val);
+        val = strtok(nullptr, ",");
     }
-    double p[parameters.size()-1];
+    std::vector<double> p;
     for(int i=0; i<parameters.size() - 1;i++) {
-        p[0]= std::stod(val);
+        p.push_back(std::stod(parameters[i]));
     }
-    Item* output = new Item(p, parameters.size()-1);
+    Item* output = new Item(p);
     auto it = parameters[parameters.size()-1].begin();
-    if(!std::isdigit(*it)) {
+    //not good
+    if(std::isdigit(*it)) {
+        output->pushProperty(std::stod(parameters[parameters.size()-1]));
+    } else {
         std::string temp(parameters[parameters.size()-1]);
         output->setType(temp);
     }
+
     return *output;
 }

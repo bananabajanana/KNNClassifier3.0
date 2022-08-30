@@ -8,7 +8,7 @@
 class Item {
 private:
     std::string type;
-    const NPoint character;
+     NPoint character;
 
 public:
 
@@ -44,6 +44,9 @@ public:
     * @param n - number of properties.
     */
     Item(double* properties,int n);
+    Item(std::vector<double> properties, std::string type);
+    Item(std::vector<double> properties);
+    void pushProperty(double property);
 };
 
 #endif
