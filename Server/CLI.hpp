@@ -13,10 +13,9 @@
 
 /**
  * TODO:
- *      - Generalize old classifier
- *          - input function needs to figure out nth rank.
- *      - Implement Download Command
- *      - Implement SocketIO
+ *      - Confusion Matrix Command Merge types from both vecotrs (answers and results)
+ *      - Implement Download Command Client
+ *      - Implement Server Socket Management
  *      - Add threading to commands
  *      - Make sure there are no memory leaks!!! (used new)
  *

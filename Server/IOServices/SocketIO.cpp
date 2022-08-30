@@ -6,6 +6,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #endif
+#include <string.h>
 std::string SocketIO::read() {
     char buffer[128]={0};
     int read_bytes = recv(socket, buffer, expected_data_len, 0);

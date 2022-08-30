@@ -24,6 +24,25 @@ void UploadCommand::execute()
             return;
         }
     }
+    classifier.setTrainingData(content);
+
+    message = "Please upload your local train CSV file.\n";
+    content.clear();
+    dio->write(message);
+    input = dio->read();
+    //maybe it should be the "done!"
+    if (input.empty()) {
+        return;
+    }
+    while(input!="DONE"){
+        char* info = const_cast<char *>(input.c_str());
+        content.push_back(itemFromLine(info));
+        input = dio->read();
+        if (input.empty()) {
+            return;
+        }
+    }
+    classifier.setTestData(content);
 }
 
 Item& UploadCommand::itemFromLine(char *st) {

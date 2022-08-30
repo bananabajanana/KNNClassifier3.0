@@ -46,11 +46,11 @@ int Classifier::getK() {
 }
 
 bool Classifier::isThereTrainingData() {
-    return trainingData.empty();
+    return !trainingData.empty();
 }
 
 bool Classifier::isThereTestData() {
-    return outputTestData.empty();
+    return !outputTestData.empty();
 }
 
 void Classifier::defItem(Item& item, DistanceCalc& typeDis) {
@@ -120,4 +120,5 @@ const std::vector<std::string> Classifier::getTypes(const std::vector<Item> &ite
             output.push_back(items[i].getTypeOfItem());
         }
     }
+    return output;
 }

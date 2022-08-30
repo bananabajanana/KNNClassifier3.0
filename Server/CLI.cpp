@@ -5,13 +5,13 @@ int main() {
 }
 
 CLI::CLI(DefaultIO *dio) : dio(dio) {
-    Classifier c(5);
+    Classifier *c = new Classifier(5);
 
-    commands.push_back(new UploadCommand(c, dio));
-    commands.push_back(new SettingsCommand(c, dio));
-    commands.push_back(new ClassifyCommand(c, dio));
-    commands.push_back(new DisplayCommand(c, dio));
-    commands.push_back(new ConfusionMatrixCommand(c, dio));
+    commands.push_back(new UploadCommand(*c, dio));
+    commands.push_back(new SettingsCommand(*c, dio));
+    commands.push_back(new ClassifyCommand(*c, dio));
+    commands.push_back(new DisplayCommand(*c, dio));
+    commands.push_back(new ConfusionMatrixCommand(*c, dio));
 }
 
 void CLI::start() {

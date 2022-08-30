@@ -16,10 +16,10 @@ void DisplayCommand::execute() {
     const std::vector<Item> toPrint = classifier.getTestOutputData();
     std::string output = "";
     for(int i = 0; i<toPrint.size(); i++) {
-        output += (i+1);
+        output += std::to_string(i+1);
         output += " " + toPrint[i].getTypeOfItem() + "\n";
     }
-    output += "Dont.\n";
+    output += "Done.\n";
     dio->write(output);
     return;
 }

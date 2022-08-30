@@ -10,7 +10,7 @@ private:
     std::string description;
 protected:
     DefaultIO *dio;
-    Classifier classifier;
+    Classifier &classifier;
 public:
     Command(Classifier &classifier, DefaultIO *dio, std::string description);
     virtual void execute() = 0;
