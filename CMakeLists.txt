@@ -42,3 +42,7 @@ add_executable(Server
         Server/Classifier/srcDistances/distCalculators/ManhattanDistance.hpp
         Server/CLI.hpp
         Server/CLI.cpp)
+
+add_executable(Client
+        Client/Client.cpp
+        Client/Client.hpp)

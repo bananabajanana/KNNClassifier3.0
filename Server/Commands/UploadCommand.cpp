@@ -8,9 +8,8 @@ UploadCommand::UploadCommand(Classifier &classifier, DefaultIO *dio) : Command(c
 {}
 void UploadCommand::execute()
 {
-    std::string message = "Please upload your local train CSV file.\n";
     std::vector<Item> content;
-    dio->write(message);
+    dio->write("\\upload train\n");
     std::string input = dio->read();
     //maybe it should be the "done!"
     if (input.empty()) {
@@ -25,10 +24,10 @@ void UploadCommand::execute()
         }
     }
     classifier.setTrainingData(content);
+    dio->write("Upload complete.");
 
-    message = "Please upload your local train CSV file.\n";
     content.clear();
-    dio->write(message);
+    dio->write("\\upload test");
     input = dio->read();
     //maybe it should be the "done!"
     if (input.empty()) {
@@ -43,6 +42,7 @@ void UploadCommand::execute()
         }
     }
     classifier.setTestData(content);
+    dio->write("Upload complete.");
 }
 
 Item& UploadCommand::itemFromLine(char *st) {
