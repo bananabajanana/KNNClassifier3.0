@@ -83,7 +83,7 @@ void ClientProcess::runClient() {
             if (message[0] == '\\') {
                 char *messageArr = const_cast<char *>(message.c_str());
                 std::string command = strtok(messageArr, " ");
-                std::string argument = strtok(nullptr, " ");
+                std::string argument = strtok(nullptr, "\n");
                 if (command == "\\upload") {
                     std::cout << "Please upload your local " << argument << " CSV file." << std::endl;
                     std::getline(std::cin, message);

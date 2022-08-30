@@ -24,10 +24,10 @@ void UploadCommand::execute()
         }
     }
     classifier.setTrainingData(content);
-    dio->write("Upload complete.");
+    dio->write("Upload complete.\n");
 
     content.clear();
-    dio->write("\\upload test");
+    dio->write("\\upload test\n");
     input = dio->read();
     //maybe it should be the "done!"
     if (input.empty()) {
