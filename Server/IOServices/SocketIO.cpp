@@ -10,6 +10,11 @@
 std::string SocketIO::read() {
     char buffer[128]={0};
     int read_bytes = recv(socket, buffer, expected_data_len, 0);
+    if (read_bytes <= 0)
+    {
+        server.deleteSocket(socket);
+        return "7";
+    }
     return std::string(buffer);
 }
 
@@ -24,4 +29,4 @@ void SocketIO::write(std::string message) {
     }
 }
 
-SocketIO::SocketIO(int socket) :socket(socket) {}
+SocketIO::SocketIO(int socket, ServerProcess s) :socket(socket), server(s) {}

@@ -56,6 +56,9 @@ void ServerProcess::releaseResources() {
     }
     close(listeningSock);
     //close threads!
+    for(auto i:threadsMap) {
+        pthread_join(i.first,NULL);
+    }
     // Iterate the map and make pthread_join to wait for all active threads.
 }
 
@@ -80,58 +83,15 @@ int ServerProcess::searchMaxFd() {
     return i;
 }
 int ServerProcess::OnInputFromClient(const int fd) {
-    char buffer[128];
-    int expected_data_len = sizeof(buffer);
-    int read_bytes = 1;
-    do
-    {
-        //region Manual buffer memset because of bug
-        for (int i = 0; i < 20; i++) {
-            buffer[i] = '\0';
-        }
-        //endregion
-
-        int read_bytes = recv(fd, buffer, expected_data_len, 0);
-        if (read_bytes <= 0)
-        {
-            clientsNum--;
-            client_socks[fd]=0;
-            maxFd = searchMaxFd();
-            //maximum of all client_sockets +1
-            maxFdsPlusOne = std::max(listeningSock, maxFd) + 1;
-            FD_CLR(fd,&rfds);
-
-            close(fd);
-            if(read_bytes<0) {
-                perror("recive returned -1");
-            } else {
-                std::cout<<"client closed connection.";
-            }
-            break;
-        }
-        char* threadInputBuffer = new (std::nothrow) char[read_bytes];
-        if(threadInputBuffer== nullptr) {
-            perror("there is no memory.");
-            break;
-        }
-        // Check which input is required by defFlowerSoc
-        memcpy(threadInputBuffer,buffer,read_bytes);
-
-        ThrParams* thrParams = new ThrParams;
-        thrParams->buf = threadInputBuffer;
-        thrParams->cli = new CLI(new SocketIo(fd));
-        thrParams->socket=fd;
-        pthread_t threadId;
-        int res = pthread_create(&threadId, NULL,threadFunc, thrParams);
-        if(res == -1) {
-            perror("pthread_create failed");
-            return -1;
-        }
-        threadsMap.insert(std::pair<int, int>(threadId, threadId));
-        //add to map threadId
-
-
-    }while (read_bytes != 0);
+    CLI* cli = new CLI(new SocketIO(fd));
+    pthread_t threadId;
+    int res = pthread_create(&threadId, NULL,threadFunc, (void*)cli);
+    if(res == -1) {
+        perror("pthread_create failed");
+        return -1;
+    }
+    threadsMap.insert(std::pair<int, int>(threadId, threadId));
+    //add to map threadId
 }
 
 void ServerProcess::ServerRunner(Classifier machine) {
@@ -167,28 +127,15 @@ void ServerProcess::ServerRunner(Classifier machine) {
             //maximum of all client_sockets +1
             maxFdsPlusOne = std::max(listeningSock, maxFd) + 1;
             FD_SET(clientFd, &rfds);
+            //creating new thread
         }
-        else
-        {
-            for(int fd = 0; fd <= maxFd; fd++) {
-                if(FD_ISSET( fd, &rfds)) {
-                    OnInputFromClient(fd);
-                }
-            }
-
-        }//else
     } // while(true)
 }
 //static
 void* ServerProcess::threadFunc(void* args) {
-    ThrParams* params = (ThrParams*)args;
-
-    Item unclassified = defFlowerSoc(params->buf, machine, fc);
-    sendSoc(unclassified, fd);
-
-    delete params->buf;
-    delete params->cli;
-    delete params;
+    CLI* cli = (CLI*)args;
+    cli->start();
+    delete cli;
     // also CLI delete
 
     pthread_t pid = pthread_self();
@@ -197,4 +144,10 @@ void* ServerProcess::threadFunc(void* args) {
     threadsMap.erase(pid);
     locker.unlock();
     //remove pid from static map
+}
+void ServerProcess::deleteSocket(int fd) {
+    maxFdsPlusOne = listeningSock + 1;
+    clientsNum--;
+    FD_CLR(fd,&rfds);
+    close(fd);
 }

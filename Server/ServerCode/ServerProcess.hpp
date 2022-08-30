@@ -16,6 +16,7 @@
 #include <unistd.h>
 #include <string.h>
 #include "Server/Classifier/Item.hpp"
+#include "Server/IOServices/SocketIO.hpp"
 #include "Server/Classifier/srcDistances/DistanceCalc.hpp"
 #include "Server/Classifier/Classifier.hpp"
 #include "Server/CLI.hpp"
@@ -27,12 +28,7 @@
 #include <map>
 class ServerProcess {
 private:
-    struct ThrParams {
-        ThrParams() : buf(0), cli(NULL), socket(-1){}
-        char* buf;
-        CLI* cli;
-        int socket;
-    };
+
     static std::map<int, int> threadsMap;
 
     int listeningSock;
@@ -69,21 +65,6 @@ private:
      * @return
      */
     int acceptSoc(int sock, struct sockaddr_in client_sin);
-    /**
-     * Creating the output (a flower) that we can define by it its type.
-     * @param properties - the flower properties
-     * @param machine - the Classifier which
-     * @param fc - the object that can help us to convert input to things that we can work with.
-     * @return The output as flower.
-     */
-    Item defFlowerSoc(char* properties, Classifier machine);
-    /**
-     * Sends the output to the client
-     * @param unclassified - the flower that we had to define.
-     * @param fc - the object that can help us to convert input to things that we can work with.
-     * @param client_sock - get the client.
-     */
-    void sendSoc(Item unclassified, int client_sock);
 public:
     /**
      * Creating server.
@@ -97,5 +78,6 @@ public:
     void ServerRunner(Classifier machine);
 
     static void* threadFunc(void* arg);
-};
+    void deleteSocket(int fd);
+    };
 #endif //KNNCLASSIFIER_SERVERPROCESS_HPP
