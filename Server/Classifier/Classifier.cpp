@@ -113,12 +113,10 @@ const bool Classifier::wasClassified() {
     return wasTestClassified;
 }
 
-const std::vector<std::string> Classifier::getTypes(const std::vector<Item> &items) {
-    std::vector<std::string> output;
+void Classifier::addTypes(const std::vector<Item> &items, std::vector<std::string> &output) {
     for(int i = 0; i < items.size(); i++) {
         if(!std::count(output.begin(), output.end(), items[i].getTypeOfItem())) {
             output.push_back(items[i].getTypeOfItem());
         }
     }
-    return output;
 }

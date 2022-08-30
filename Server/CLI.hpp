@@ -13,7 +13,6 @@
 
 /**
  * TODO:
- *      - Confusion Matrix Command Merge types from both vecotrs (answers and results)
  *      - Implement Download Command Client
  *      - Implement Server Socket Management
  *      - Add threading to commands

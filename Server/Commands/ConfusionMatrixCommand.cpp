@@ -16,7 +16,9 @@ void ConfusionMatrixCommand::execute() {
     //region Var Initialization
     std::vector<Item> results = classifier.getTestOutputData();
     std::vector<Item> answers = classifier.getTestInputData();
-    std::vector<std::string> types = classifier.getTypes(answers);
+    std::vector<std::string> types;
+    classifier.addTypes(results, types);
+    classifier.addTypes(answers, types);
 
     int confusionCount[types.size()][types.size() + 1];
 
