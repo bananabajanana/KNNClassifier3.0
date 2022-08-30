@@ -4,13 +4,14 @@
 #include "Server/IOServices/DefaultIO.hpp"
 #include "Server/ServerCode/ServerProcess.hpp"
 
+class ServerProcess;
 class SocketIO : public DefaultIO {
 private:
     int socket;
-    int expected_data_len = 128;
+    int expected_data_len = 1024;
     ServerProcess server;
 public:
-    SocketIO(int socket, ServerProcess s);
+    SocketIO(int socket, ServerProcess &s);
     std::string read() override;
     void write(std::string toWrite) override;
 

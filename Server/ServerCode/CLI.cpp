@@ -1,10 +1,7 @@
 #include "CLI.hpp"
-int main() {
-    CLI ohad(new StandardIO);
-    ohad.start();
-}
+#include "Server/IOServices/SocketIO.hpp"
 
-CLI::CLI(DefaultIO *dio) : dio(dio) {
+CLI::CLI(int fd, ServerProcess &server) : dio(new SocketIO(fd, server)) {
     Classifier *c = new Classifier(5);
 
     commands.push_back(new UploadCommand(*c, dio));

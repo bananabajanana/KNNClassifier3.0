@@ -144,7 +144,7 @@ All the transitions are managed by a middle step we'll call <code>Select</code>.
 
 * **Port = 6969** We chose this port number since it is not a commonly used port and is not part of the super-user port range (0-1024). [2]
 * **Timeout = 5sec** We gave clients a generous amount of time before kicking them out.
-* **Buffer Size = 128** Since the user can only send one flower info at a time, we limited the user's message size to 128 bytes.
+* **Buffer Size = 1024** Since the user can only send one flower info at a time, we limited the user's message size to 128 bytes.
 
 ### Client
 

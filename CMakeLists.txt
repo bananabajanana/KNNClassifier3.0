@@ -46,6 +46,10 @@ add_executable(Server
         Server/ServerCode/ServerProcess.hpp
         Server/ServerMain.cpp)
 
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+target_link_libraries(Server Threads::Threads )
+
 add_executable(Client
         Client/Client.hpp
         Client/Client.cpp

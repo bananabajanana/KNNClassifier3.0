@@ -18,8 +18,8 @@
 class ClientProcess {
 private:
     char* ip_address;
-    char buffer[128];
-    int expected_data_len = 128;
+    char buffer[1024];
+    int expected_data_len = 1024;
     int port_no;
     int sock;
 

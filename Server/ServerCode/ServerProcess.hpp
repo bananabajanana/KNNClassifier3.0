@@ -1,22 +1,17 @@
 #ifndef KNNCLASSIFIER_SERVERPROCESS_HPP
 #define KNNCLASSIFIER_SERVERPROCESS_HPP
 
-#ifdef WIN32
-#include <windows.h>
-#include <winsock.h>
-#else
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <sys/types.h>
-#endif
 #include <vector>
 #include <iostream>
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
 #include "Server/Classifier/Item.hpp"
-#include "Server/IOServices/SocketIO.hpp"
+//#include "Server/IOServices/SocketIO.hpp"
 #include "Server/Classifier/srcDistances/DistanceCalc.hpp"
 #include "Server/Classifier/Classifier.hpp"
 #include "CLI.hpp"
@@ -24,12 +19,13 @@
 #define SERVER_PORT 6969
 #define CLIENT_TIME_OUT 15
 #define MAX_CLIENTS_NUM 1024
-#include "pthread.h"
+#include <pthread.h>
 #include <map>
+#include <thread>
+#include <mutex>
+
 class ServerProcess {
 private:
-
-    static std::map<int, int> threadsMap;
 
     int listeningSock;
     int client_socks[MAX_CLIENTS_NUM];
@@ -66,6 +62,8 @@ private:
      */
     int acceptSoc(int sock, struct sockaddr_in client_sin);
 public:
+    static std::map<int, int> threadsMap;
+
     /**
      * Creating server.
      */

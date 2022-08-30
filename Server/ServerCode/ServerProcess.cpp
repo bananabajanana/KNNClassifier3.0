@@ -1,6 +1,5 @@
 #include "ServerProcess.hpp"
-#include <thread>
-#include <mutex>
+std::map<int, int> ServerProcess::threadsMap = *(new std::map<int, int>());
 
 ServerProcess::ServerProcess() {
     listeningSock = serverInitialization(SERVER_PORT);
@@ -17,7 +16,6 @@ ServerProcess::ServerProcess() {
     tv.tv_sec = CLIENT_TIME_OUT;
     tv.tv_usec = 0;
 }
-
 
 int ServerProcess::serverInitialization(const int server_port) {
     int sock = socket(AF_INET, SOCK_STREAM, 0);
@@ -83,7 +81,7 @@ int ServerProcess::searchMaxFd() {
     return i;
 }
 int ServerProcess::OnInputFromClient(const int fd) {
-    CLI* cli = new CLI(new SocketIO(fd));
+    CLI* cli = new CLI(fd, *this);
     pthread_t threadId;
     int res = pthread_create(&threadId, NULL,threadFunc, (void*)cli);
     if(res == -1) {
@@ -128,6 +126,7 @@ void ServerProcess::ServerRunner() {
             maxFdsPlusOne = std::max(listeningSock, maxFd) + 1;
             FD_SET(clientFd, &rfds);
             //creating new thread
+            OnInputFromClient(clientFd);
         }
     } // while(true)
 }

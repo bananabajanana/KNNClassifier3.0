@@ -1,5 +1,14 @@
 #include "Client.hpp"
 
+bool hasChar(char *arr, int n, char c) {
+    for(int i = 0; i < n; i++) {
+        if (arr[i] == c) {
+            return true;
+        }
+    }
+    return false;
+}
+
 ClientProcess::ClientProcess(char *ip_address, int port_no) {
     this->ip_address = ip_address;
     this->port_no = port_no;
@@ -27,20 +36,19 @@ void ClientProcess::sendFile(const std::string& path) {
 }
 
 std::string ClientProcess::getMessage() {
+    std::string output = "";
     //should probably check memset
-    for(int i = 0; i < 128; i++) {
+    for (int i = 0; i < 1024; i++) {
         buffer[0] = 0;
     }
 
     int read_bytes = recv(sock, buffer, expected_data_len, 0);
     if (read_bytes == 0) {
         throw std::runtime_error("Client Error: Server closed the connection");
-    }
-    else if (read_bytes < 0) {
+    } else if (read_bytes < 0) {
         throw std::runtime_error("Client Error: Couldn't sent bytes to server");
     }
-
-    std::string output(buffer);
+    output+=buffer;
     return output;
 }
 
