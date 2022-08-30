@@ -13,6 +13,7 @@ void DownloadCommand::execute() {
     }
     //endregion
 
+    dio->write("\\download results.txt\n");
     const std::vector<Item> toPrint = classifier.getTestOutputData();
     std::string output = "";
     for(int i = 0; i<toPrint.size(); i++) {

@@ -120,7 +120,7 @@ public:
      * @param items a vector of items with different types
      * @return a vector of the different types.
      */
-    static const std::vector<std::string> getTypes(const std::vector<Item> &items);
+    static void addTypes(const std::vector<Item> &items, std::vector<std::string> &output);
 };
 
 #endif

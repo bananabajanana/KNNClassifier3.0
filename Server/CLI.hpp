@@ -13,11 +13,10 @@
 
 /**
  * TODO:
- *      - Confusion Matrix Command Merge types from both vecotrs (answers and results)
- *      - Implement Download Command Client
  *      - Implement Server Socket Management
  *      - Add threading to commands
  *      - Make sure there are no memory leaks!!! (used new)
+ *      - Maybe generalize confusion matrix printing method (types with long names)
  *
  * MICHALLLLLL:
  *      - I changed the names of the vectors to "TrainingData, inputTestData, outputTestData"
