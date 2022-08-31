@@ -3,7 +3,7 @@
 #include "Server/IOServices/StandardIO.hpp"
 
 CLI::CLI(int fd, ServerProcess &server) : dio(new SocketIO(fd, server)) {
-    Classifier *c = new Classifier(5);
+    c = new Classifier(5);
 
     commands.push_back(new UploadCommand(*c, dio));
     commands.push_back(new SettingsCommand(*c, dio));
@@ -53,5 +53,11 @@ void CLI::start() {
 }
 
 CLI::~CLI() {
+    while(!commands.empty()) {
+        Command *temp = commands.back();
+        commands.pop_back();
+        delete temp;
+    }
+    delete c;
     delete dio;
 }

@@ -40,3 +40,5 @@ void Item::pushProperty(double property)
 {
     character.pushProperty(property);
 }
+
+Item::~Item() = default;

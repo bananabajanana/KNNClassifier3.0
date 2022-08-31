@@ -63,6 +63,8 @@ public:
      * @param property property to add
      */
     void pushProperty(double property);
+
+    ~Item();
 };
 
 #endif

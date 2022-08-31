@@ -117,13 +117,15 @@ public:
     /**
      * @return Whether the last given test data was classified by the classifier.
      */
-    const bool wasClassified();
+    bool wasClassified() const;
 
     /**
      * @param items a vector of items with different types
      * @return a vector of the different types.
      */
     static void addTypes(const std::vector<Item> &items, std::vector<std::string> &output);
+
+    ~Classifier();
 };
 
 #endif

@@ -16,6 +16,7 @@ class CLI {
 private:
     std::vector<Command *> commands;
     DefaultIO *dio;
+    Classifier *c;
 
 public:
     /**
