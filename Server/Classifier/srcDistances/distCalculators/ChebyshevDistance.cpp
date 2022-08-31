@@ -13,5 +13,5 @@ const double ChebyshevDistance::dist(const NPoint& p1, const NPoint& p2) const {
 }
 
 ChebyshevDistance::ChebyshevDistance() {
-    this->FILE_NAME = "CHE";
+    this->STRING_REPRESENTATION = "CHE";
 }

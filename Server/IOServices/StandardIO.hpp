@@ -4,7 +4,15 @@
 #include "Server/IOServices/DefaultIO.hpp"
 
 class StandardIO : public DefaultIO {
+    /**
+     * @return message from console
+     */
     std::string read() override;
+
+    /**
+     * Write a message to the console
+     * @param toWrite message to write
+     */
     void write(std::string toWrite) override;
 };
 

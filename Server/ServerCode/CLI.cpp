@@ -3,7 +3,7 @@
 #include "Server/IOServices/StandardIO.hpp"
 
 CLI::CLI(int fd, ServerProcess &server) : dio(new SocketIO(fd, server)) {
-    Classifier *c = new Classifier(5);
+    c = new Classifier(5);
 
     commands.push_back(new UploadCommand(*c, dio));
     commands.push_back(new SettingsCommand(*c, dio));
@@ -42,13 +42,22 @@ void CLI::start() {
             } else {
                 dio->write("Please chose a valid option.");
             }
-        } catch(std::exception& e) {
-            dio->write("Please select an option by writing a number.");
+        } catch(std::runtime_error& e) {
+            if (strcmp(e.what(), "Connection failed") == 0) {
+                return;
+            }
+            dio->write("Please select an option by writing a number.\n");
         }
         //endregion
     }
 }
 
 CLI::~CLI() {
+    while(!commands.empty()) {
+        Command *temp = commands.back();
+        commands.pop_back();
+        delete temp;
+    }
+    delete c;
     delete dio;
 }

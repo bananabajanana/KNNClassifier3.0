@@ -29,13 +29,38 @@ private:
      */
     void sendMessage(std::string message);
 
+    /**
+     * Send a file to the server
+     * @param path file's path
+     */
     void sendFile(const std::string& path);
+
+    /**
+     * Manages the special \\upload command
+     * @param args path of input file
+     */
+    void uploadCommand(std::string args);
+
+    /**
+     * Manages the special \\download command
+     * @param args path of output file
+     */
+    void downloadCommand(std::string args);
+
+    /**
+     * Manages any non-specific command
+     */
+    void generalCommand();
 
     /**
      * Load a message from the server to the object's buffer array.
      */
     std::string getMessage();
 
+    /**
+     * load a file from the server
+     * @param path path of file to load to.
+     */
     void getFile(std::string path);
 
     /**

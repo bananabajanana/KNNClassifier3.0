@@ -5,8 +5,11 @@
 
 class UploadCommand : public Command {
 private:
-    Item& itemFromLine(char *st);
+    static Item& itemFromLine(char *st);
 
+    void uploadTrain();
+
+    void uploadTest();
 public:
     /**
      * Constructor.

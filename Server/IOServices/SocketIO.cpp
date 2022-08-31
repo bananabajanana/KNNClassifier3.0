@@ -8,15 +8,6 @@
 #endif
 #include <string.h>
 
-bool hasChar(char *arr, int n, char c) {
-    for(int i = 0; i < n; i++) {
-        if (arr[i] == c) {
-            return true;
-        }
-    }
-    return false;
-}
-
 std::string SocketIO::read() {
     //region SendingBacklog
     toSend += '\003';
