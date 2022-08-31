@@ -1,8 +1,8 @@
 #include "ConfusionMatrixCommand.hpp"
 
 
-ConfusionMatrixCommand::ConfusionMatrixCommand(Classifier &classifier, DefaultIO *dio) : Command(classifier, dio, "display algorithm confusion matrix") {
-}
+ConfusionMatrixCommand::ConfusionMatrixCommand(Classifier &classifier, DefaultIO *dio) : Command(classifier, dio, "display algorithm confusion matrix") {}
+
 void ConfusionMatrixCommand::execute() {
     //region Edge Case-handling
     if(!classifier.isThereTestData()) {

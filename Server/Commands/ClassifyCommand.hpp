@@ -6,9 +6,10 @@
 class ClassifyCommand : public Command {
 public:
     /**
-     * Constructor
+     * Constructor.
      */
     ClassifyCommand(Classifier &classifier, DefaultIO *dio);
+
     void execute() override;
 };
 

@@ -6,8 +6,13 @@
 class UploadCommand : public Command {
 private:
     Item& itemFromLine(char *st);
+
 public:
+    /**
+     * Constructor.
+     */
     UploadCommand(Classifier &classifier, DefaultIO *dio);
+
     void execute() override;
 };
 

@@ -8,6 +8,7 @@
 #include <cstring>
 
 class SettingsCommand : public Command {
+
 public:
     /**
      * Constructor.

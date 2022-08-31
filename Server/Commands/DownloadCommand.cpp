@@ -1,6 +1,7 @@
 #include "DownloadCommand.hpp"
 
 DownloadCommand::DownloadCommand(Classifier &classifier, DefaultIO *dio) : Command(classifier, dio, "download results") {}
+
 //same as 4
 void DownloadCommand::execute() {
     //region Edge Case-handling

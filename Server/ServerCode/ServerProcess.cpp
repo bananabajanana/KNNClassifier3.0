@@ -39,12 +39,12 @@ int ServerProcess::serverInitialization(const int server_port) {
     return sock;
 }
 
-
 void ServerProcess::listenSoc(int sock) {
     if (listen(sock, 5) < 0) {
         perror("error listening to a socket");
     }
 }
+
 void ServerProcess::releaseResources() {
     //Release of the resources.
     for(int i=0; i< MAX_CLIENTS_NUM;i++) {
@@ -70,7 +70,6 @@ int ServerProcess::acceptSoc(int sock, struct sockaddr_in client_sin) {
     return client_sock;
 }
 
-
 int ServerProcess::searchMaxFd() {
     int i=maxFd;
     for(;i>=0;i--) {
@@ -80,13 +79,14 @@ int ServerProcess::searchMaxFd() {
     }
     return i;
 }
-int ServerProcess::OnInputFromClient(const int fd) {
+
+void ServerProcess::CliCreate(const int fd) {
     CLI* cli = new CLI(fd, *this);
     pthread_t threadId;
     int res = pthread_create(&threadId, NULL,threadFunc, (void*)cli);
     if(res == -1) {
         perror("pthread_create failed");
-        return -1;
+        return;
     }
     threadsMap.insert(std::pair<int, int>(threadId, threadId));
     //add to map threadId
@@ -126,10 +126,18 @@ void ServerProcess::ServerRunner() {
             maxFdsPlusOne = std::max(listeningSock, maxFd) + 1;
             FD_SET(clientFd, &rfds);
             //creating new thread
-            OnInputFromClient(clientFd);
+            CliCreate(clientFd);
         }
     } // while(true)
 }
+
+void ServerProcess::deleteSocket(int fd) {
+    maxFdsPlusOne = listeningSock + 1;
+    clientsNum--;
+    FD_CLR(fd,&rfds);
+    close(fd);
+}
+
 //static
 void* ServerProcess::threadFunc(void* args) {
     CLI* cli = (CLI*)args;
@@ -144,9 +152,4 @@ void* ServerProcess::threadFunc(void* args) {
     locker.unlock();
     //remove pid from static map
 }
-void ServerProcess::deleteSocket(int fd) {
-    maxFdsPlusOne = listeningSock + 1;
-    clientsNum--;
-    FD_CLR(fd,&rfds);
-    close(fd);
-}
+

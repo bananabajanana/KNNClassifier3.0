@@ -5,7 +5,11 @@
 
 class DownloadCommand : public Command {
 public:
+    /**
+    * Constructor
+    */
     DownloadCommand(Classifier &classifier, DefaultIO *dio);
+
     void execute();
 };
 

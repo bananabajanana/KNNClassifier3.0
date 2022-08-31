@@ -26,8 +26,8 @@
 
 class ServerProcess {
 private:
-    //endregion
-//region Menu Printing
+
+//region Server params
     int listeningSock;
     int client_socks[MAX_CLIENTS_NUM];
     int maxFd;
@@ -39,18 +39,25 @@ private:
     fd_set rfds;
     //responsible for the time out.
     struct timeval tv;
+//endregion
 
     /**
      * in the end-life of the server, the server will release its resources.
      */
     void releaseResources();
+
     /**
-     *
-     * @param fd
+     * Creates cli for client with its own socket and thread.
+     * @param fd - socket num.
+     */
+    void CliCreate(const int fd);
+
+    /**
+     * Search the max socket in the socket array.
      * @return
      */
-    int OnInputFromClient(const int fd);
     int searchMaxFd();
+
     /**
      * Creating the listening sock and do the first steps that a server need to do - bind.
      * @param server_port - the server port.
@@ -63,6 +70,7 @@ private:
      * @param sock - the socket.
      */
     void listenSoc(int sock);
+
     /**
      * Start the accept stage.
      * @param sock - the socket.
@@ -70,13 +78,16 @@ private:
      * @return
      */
     int acceptSoc(int sock, struct sockaddr_in client_sin);
+
 public:
+    //map which control all the threads.
     static std::map<int, int> threadsMap;
 
     /**
      * Creating server.
      */
     ServerProcess();
+
     /**
      * Start to talk with clients, get input and sent output.
      * @param machine - the Classifier which
@@ -84,7 +95,18 @@ public:
      */
     void ServerRunner();
 
+    /**
+     * each new thread works on this function scope - it runs the cli.
+     * @param arg - the cli.
+     * @return nothing.
+     */
     static void* threadFunc(void* arg);
+
+    /**
+     * Responsible for maintaining the server after lose of connection with a client.
+     * @param fd - the client's socket.
+     */
     void deleteSocket(int fd);
+
     };
 #endif //KNNCLASSIFIER_SERVERPROCESS_HPP

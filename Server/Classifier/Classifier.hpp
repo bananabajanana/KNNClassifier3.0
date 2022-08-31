@@ -15,12 +15,14 @@
  */
 class Classifier {
 private:
+    //region Server params
     int k;
     bool wasTestClassified;
     std::vector<Item> trainingData;
     std::vector<Item> outputTestData;
     std::vector<Item> inputTestData;
     DistanceCalc *dist;
+    //endregion
 
     /**
     * Helps the "defItem" function algorithm finding the closest iris
@@ -36,28 +38,31 @@ private:
     * @param typeDis - The distance method we are going to use.
     */
     void defItem(Item& item, DistanceCalc& typeDis);
+
 public:
     /**
     * set a trainingData items.
     * @param classified - the trainingData items.
     */
     void setTrainingData(const std::vector<Item>& classified);
+
     /**
     * set a unclassified items.
     * @param unClassified - the unclassified items.
     */
     void setTestData(const std::vector<Item>& unClassified);
+
     /**
      * if there is Unclassified items.
      * @return true or false Unclassified items that were declared.
      */
     bool isThereTestData();
+
     /**
     * if there is trainingData items.
     * @return true or false trainingData items that were declared.
     */
     bool isThereTrainingData();
-
 
     /**
      * Defines all the unclassified items.

@@ -16,11 +16,13 @@ private:
      * @return
      */
     static int findPosInVector(const std::vector<std::string> v, const Item& item);
+
 public:
     /**
      * Constructor
      */
     ConfusionMatrixCommand(Classifier &classifier, DefaultIO *dio);
+
     void execute() override;
 };
 

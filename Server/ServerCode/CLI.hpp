@@ -17,7 +17,6 @@ private:
     std::vector<Command *> commands;
     DefaultIO *dio;
 
-
 public:
     /**
      * Starts the Command line interface interaction between the server and a single user.
