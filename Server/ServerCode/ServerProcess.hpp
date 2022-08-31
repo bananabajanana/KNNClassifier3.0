@@ -82,7 +82,7 @@ private:
 
 public:
     //map which control all the threads.
-    static std::map<int, int> threadsMap;
+    static std::map<long, long> threadsMap;
 
     /**
      * Creating server.
