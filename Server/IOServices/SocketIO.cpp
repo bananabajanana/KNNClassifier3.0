@@ -25,7 +25,6 @@ std::string SocketIO::read() {
         return "7";
     }
     output += buffer;
-    output[output.length() - 1] = '\0';
     return output;
 }
 

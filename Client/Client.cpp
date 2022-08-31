@@ -39,7 +39,7 @@ std::string ClientProcess::getMessage() {
     std::string output = "";
     //should probably check memset
     for (int i = 0; i < 1024; i++) {
-        buffer[0] = 0;
+        buffer[i] = 0;
     }
 
     int read_bytes = recv(sock, buffer, expected_data_len, 0);
@@ -110,7 +110,11 @@ void ClientProcess::runClient() {
                 std::cout << message;
 
                 std::getline(std::cin, message);
-                sendMessage(message);
+                if (message.empty()) {
+                    sendMessage("\\empty");
+                } else {
+                    sendMessage(message);
+                }
             }
         } catch (std::runtime_error &e) {
             if (e.what() == "Client Error: Server closed the connection") {

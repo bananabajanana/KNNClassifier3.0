@@ -17,7 +17,7 @@ void SettingsCommand::execute() {
 
     while (true) {
         input = dio->read();
-        if (input.empty()) {
+        if (input == "\\empty") {
             return;
         }
 
