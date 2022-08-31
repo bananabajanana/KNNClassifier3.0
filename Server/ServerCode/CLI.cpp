@@ -9,6 +9,7 @@ CLI::CLI(int fd, ServerProcess &server) : dio(new SocketIO(fd, server)) {
     commands.push_back(new SettingsCommand(*c, dio));
     commands.push_back(new ClassifyCommand(*c, dio));
     commands.push_back(new DisplayCommand(*c, dio));
+    commands.push_back(new DownloadCommand(*c, dio));
     commands.push_back(new ConfusionMatrixCommand(*c, dio));
 }
 

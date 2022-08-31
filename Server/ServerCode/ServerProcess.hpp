@@ -17,7 +17,7 @@
 #include "CLI.hpp"
 
 #define SERVER_PORT 6969
-#define CLIENT_TIME_OUT 100
+#define CLIENT_TIME_OUT 10
 #define MAX_CLIENTS_NUM 1024
 #include <pthread.h>
 #include <map>

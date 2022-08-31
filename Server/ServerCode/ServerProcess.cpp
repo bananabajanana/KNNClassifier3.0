@@ -96,6 +96,7 @@ void ServerProcess::ServerRunner() {
 
     while(true) {
         int retval = select(maxFdsPlusOne, &rfds, NULL, NULL, &tv);
+        std::cout << "bruh";
         if(retval==-1) {
             //error the socket is not right
             perror("There is an error with the socket.");
