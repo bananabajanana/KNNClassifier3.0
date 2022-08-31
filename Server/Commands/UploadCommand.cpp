@@ -18,6 +18,7 @@ void UploadCommand::execute()
     while(input!="DONE"){
         char* info = const_cast<char *>(input.c_str());
         content.push_back(itemFromLine(info));
+        dio->write("\\next\n");
         input = dio->read();
         if (input.empty()) {
             return;
@@ -36,13 +37,14 @@ void UploadCommand::execute()
     while(input!="DONE"){
         char* info = const_cast<char *>(input.c_str());
         content.push_back(itemFromLine(info));
+        dio->write("\\next\n");
         input = dio->read();
         if (input.empty()) {
             return;
         }
     }
     classifier.setTestData(content);
-    dio->write("Upload complete.");
+    dio->write("Upload complete.\n");
 }
 
 Item& UploadCommand::itemFromLine(char *st) {

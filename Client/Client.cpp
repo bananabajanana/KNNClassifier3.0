@@ -30,6 +30,9 @@ void ClientProcess::sendFile(const std::string& path) {
 
     while(std::getline(input, message)) {
         sendMessage(message);
+        if(getMessage() != "\\next\n") {
+            perror("File Transfer failed!");
+        }
     }
     sendMessage("DONE");
     input.close();
@@ -96,6 +99,10 @@ void ClientProcess::runClient() {
                     std::cout << "Please upload your local " << argument << " CSV file." << std::endl;
                     std::getline(std::cin, message);
                     sendFile(message);
+                    message = getMessage();
+                    if (message != "Upload complete.\n") {
+                        perror("Upload failed");
+                    }
                 } else if (command == "\\download") {
                     std::cout << "Please give a path to download " << argument << " to.";
                     std::getline(std::cin, message);
