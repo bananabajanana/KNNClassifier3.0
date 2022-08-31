@@ -47,4 +47,6 @@ SocketIO::SocketIO(int socket, ServerProcess &s) :socket(socket), server(s) {
     toSend = "";
 }
 
-SocketIO::~SocketIO() = default;
+SocketIO::~SocketIO() {
+    server.deleteSocket(socket);
+}
