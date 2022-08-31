@@ -129,7 +129,7 @@ void ClientProcess::runClient() {
                 }
             }
         } catch (std::runtime_error &e) {
-            if (e.what() == "Client Error: Server closed the connection") {
+            if (strcmp(e.what(), "Client Error: Server closed the connection") == 0) {
                 return;
             } else {
                 std::cout << e.what();

@@ -42,8 +42,11 @@ void CLI::start() {
             } else {
                 dio->write("Please chose a valid option.");
             }
-        } catch(std::exception& e) {
-            dio->write("Please select an option by writing a number.");
+        } catch(std::runtime_error& e) {
+            if (strcmp(e.what(), "Connection failed")) {
+                return;
+            }
+            dio->write("Please select an option by writing a number.\n");
         }
         //endregion
     }

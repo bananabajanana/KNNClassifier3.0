@@ -38,8 +38,7 @@ std::string SocketIO::read() {
         int read_bytes = recv(socket, buffer, expected_data_len, 0);
         if (read_bytes <= 0) {
             server.deleteSocket(socket);
-            return "7";
-
+            throw std::runtime_error("Connection failed");
         }
         output += buffer;
     } while(output[output.length() - 1] != '\003');
