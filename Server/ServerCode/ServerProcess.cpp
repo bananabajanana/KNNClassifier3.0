@@ -122,7 +122,7 @@ void ServerProcess::ServerRunner() {
                     maxFd = clientFd;
                 }
             }
-            //maximum of all client_sockets +1
+            //maximum of all client_sockets +1.
             maxFdsPlusOne = std::max(listeningSock, maxFd) + 1;
             FD_SET(clientFd, &rfds);
             //creating new thread
