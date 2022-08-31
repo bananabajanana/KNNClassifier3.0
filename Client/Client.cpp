@@ -15,6 +15,7 @@ ClientProcess::ClientProcess(char *ip_address, int port_no) {
 }
 
 void ClientProcess::sendMessage(std::string message) {
+    message += '\003';
     char* toSend = const_cast<char *>(message.c_str());
     int message_len = strlen(toSend);
     int sent_bytes = send(sock, toSend, message_len, 0);
@@ -41,17 +42,17 @@ void ClientProcess::sendFile(const std::string& path) {
 std::string ClientProcess::getMessage() {
     std::string output = "";
     //should probably check memset
-    for (int i = 0; i < 1024; i++) {
-        buffer[i] = 0;
-    }
-
-    int read_bytes = recv(sock, buffer, expected_data_len, 0);
-    if (read_bytes == 0) {
-        throw std::runtime_error("Client Error: Server closed the connection");
-    } else if (read_bytes < 0) {
-        throw std::runtime_error("Client Error: Couldn't sent bytes to server");
-    }
-    output+=buffer;
+    char buffer[4096]={0};
+    do {
+        int read_bytes = recv(sock, buffer, expected_data_len, 0);
+        if (read_bytes == 0) {
+            throw std::runtime_error("Client Error: Server closed the connection");
+        } else if (read_bytes < 0) {
+            throw std::runtime_error("Client Error: Couldn't sent bytes to server");
+        }
+        output += buffer;
+    } while (output[output.length() - 1] != '\003');
+    output.pop_back();
     return output;
 }
 
@@ -91,7 +92,12 @@ void ClientProcess::runClient() {
     while(true) {
         try {
             message = getMessage();
-            if (message[0] == '\\') {
+            if (message.find('\\') != std::string::npos) {
+                //printing text before command
+                if(message.find('\\') != 0) {
+                    std::cout << message.substr(0, message.find("\\")) << std::endl;
+                    message = message.substr(message.find("\\"), message.length() - message.find("\\"));
+                }
                 char *messageArr = const_cast<char *>(message.c_str());
                 std::string command = strtok(messageArr, " ");
                 std::string argument = strtok(nullptr, "\n");
@@ -99,10 +105,6 @@ void ClientProcess::runClient() {
                     std::cout << "Please upload your local " << argument << " CSV file." << std::endl;
                     std::getline(std::cin, message);
                     sendFile(message);
-                    message = getMessage();
-                    if (message != "Upload complete.\n") {
-                        perror("Upload failed");
-                    }
                 } else if (command == "\\download") {
                     std::cout << "Please give a path to download " << argument << " to.";
                     std::getline(std::cin, message);

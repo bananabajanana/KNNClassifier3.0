@@ -8,7 +8,8 @@ class ServerProcess;
 class SocketIO : public DefaultIO {
 private:
     int socket;
-    int expected_data_len = 1024;
+    int expected_data_len = 4096;
+    std::string toSend;
     ServerProcess server;
 public:
     SocketIO(int socket, ServerProcess &s);
