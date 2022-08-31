@@ -16,12 +16,22 @@ void DownloadCommand::execute() {
 
     dio->write("\\download results.txt\n");
     const std::vector<Item> toPrint = classifier.getTestOutputData();
+    if (dio->read() != "\\next") {
+        perror("Couldn't send file");
+    }
     std::string output = "";
     for(int i = 0; i<toPrint.size(); i++) {
-        output += (i+1);
+        output = std::to_string(i+1);
         output += " " + toPrint[i].getTypeOfItem() + "\n";
+        dio->write(output);
+        if(dio->read() != "\\next\n") {
+            perror("Couldn't send file");
+        }
     }
-    output += "Dont.\n";
-    dio->write(output);
+    dio->write("DONE\n");
+    if(dio->read() != "\\received\n") {
+        perror("Couldn't send file");
+    }
+    dio->write("Upload complete\n");
     return;
 }

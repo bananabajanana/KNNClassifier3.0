@@ -59,11 +59,14 @@ std::string ClientProcess::getMessage() {
 void ClientProcess::getFile(std::string path) {
     std::ofstream output(path);
 
+    sendMessage("\\next");
     std::string line = getMessage();
-    while(line != "DONE") {
-        output << line << std::endl;
+    while(line != "DONE\n") {
+        output << line;
+        sendMessage("\\next\n");
         line = getMessage();
     }
+    sendMessage("\\received\n");
     output.close();
 }
 
@@ -106,9 +109,9 @@ void ClientProcess::runClient() {
                     std::getline(std::cin, message);
                     sendFile(message);
                 } else if (command == "\\download") {
-                    std::cout << "Please give a path to download " << argument << " to.";
+                    std::cout << "Please give a path to download " << argument << " to." << std::endl;
                     std::getline(std::cin, message);
-                    getFile(message);
+                    getFile(message + argument);
                 } else {
                     message = "Client Error: " + command;
                     message += " with arguments " + argument;

@@ -1,5 +1,5 @@
 #include "ServerProcess.hpp"
-std::map<long, long> ServerProcess::threadsMap = *(new std::map<long, long>());
+std::map<pthread_t, pthread_t> ServerProcess::threadsMap = *(new std::map<pthread_t, pthread_t>());
 
 ServerProcess::ServerProcess() {
     listeningSock = serverInitialization(SERVER_PORT);
@@ -90,7 +90,7 @@ void ServerProcess::CliCreate(const int fd) {
         perror("pthread_create failed");
         return;
     }
-    threadsMap.insert(std::pair<long, long>(threadId, threadId));
+    threadsMap.insert(std::pair<pthread_t, pthread_t>(threadId, threadId));
     //add to map threadId
 }
 
