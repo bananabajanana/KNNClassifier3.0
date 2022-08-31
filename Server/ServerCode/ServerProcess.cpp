@@ -15,6 +15,8 @@ ServerProcess::ServerProcess() {
     FD_SET(listeningSock, &rfds);
     tv.tv_sec = CLIENT_TIME_OUT;
     tv.tv_usec = 0;
+    FD_ZERO(&rfds1_listen);
+    FD_SET(listeningSock, &rfds1_listen);
 }
 
 int ServerProcess::serverInitialization(const int server_port) {
@@ -95,7 +97,8 @@ void ServerProcess::CliCreate(const int fd) {
 void ServerProcess::ServerRunner() {
 
     while(true) {
-        int retval = select(maxFdsPlusOne, &rfds, NULL, NULL, &tv);
+
+        int retval = select(maxFdsPlusOne, &rfds1_listen, NULL, NULL, &tv);
         std::cout << "bruh";
         if(retval==-1) {
             //error the socket is not right
@@ -153,4 +156,3 @@ void* ServerProcess::threadFunc(void* args) {
     locker.unlock();
     //remove pid from static map
 }
-

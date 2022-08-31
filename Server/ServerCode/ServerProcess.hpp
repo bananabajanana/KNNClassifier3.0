@@ -37,6 +37,7 @@ private:
     int clientsNum;
     //the set of all the sockets the our server has.
     fd_set rfds;
+    fd_set rfds1_listen;
     //responsible for the time out.
     struct timeval tv;
 //endregion
@@ -108,5 +109,5 @@ public:
      */
     void deleteSocket(int fd);
 
-    };
+};
 #endif //KNNCLASSIFIER_SERVERPROCESS_HPP
