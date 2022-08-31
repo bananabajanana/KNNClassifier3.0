@@ -4,19 +4,15 @@ std::map<pthread_t, pthread_t> ServerProcess::threadsMap = *(new std::map<pthrea
 ServerProcess::ServerProcess() {
     listeningSock = serverInitialization(SERVER_PORT);
     listenSoc(listeningSock);
-
     memset((void*)client_socks,0,sizeof(client_socks));
     //select() requires the size of the array of sockets to be passed as the maximum socket number plus one.
     //see the man page of select.
-    maxFd = 0;
     maxFdsPlusOne = listeningSock + 1;
     clientsNum = 0;
-    FD_ZERO(&rfds);
-    FD_SET(listeningSock, &rfds);
     tv.tv_sec = CLIENT_TIME_OUT;
     tv.tv_usec = 0;
-    FD_ZERO(&rfds1_listen);
-    FD_SET(listeningSock, &rfds1_listen);
+    FD_ZERO(&rfds_listen);
+    FD_SET(listeningSock, &rfds_listen);
 }
 
 int ServerProcess::serverInitialization(const int server_port) {
@@ -48,6 +44,11 @@ void ServerProcess::listenSoc(int sock) {
 }
 
 void ServerProcess::releaseResources() {
+    //close threads!
+    for(auto i:threadsMap) {
+        pthread_join(i.first,NULL);
+    }
+    // Iterate the map and make pthread_join to wait for all active threads.
     //Release of the resources.
     for(int i=0; i< MAX_CLIENTS_NUM;i++) {
         if(client_socks[i]) {
@@ -55,11 +56,7 @@ void ServerProcess::releaseResources() {
         }
     }
     close(listeningSock);
-    //close threads!
-    for(auto i:threadsMap) {
-        pthread_join(i.first,NULL);
-    }
-    // Iterate the map and make pthread_join to wait for all active threads.
+
 }
 
 int ServerProcess::acceptSoc(int sock, struct sockaddr_in client_sin) {
@@ -70,16 +67,6 @@ int ServerProcess::acceptSoc(int sock, struct sockaddr_in client_sin) {
 
     }
     return client_sock;
-}
-
-int ServerProcess::searchMaxFd() {
-    int i=maxFd;
-    for(;i>=0;i--) {
-        if(client_socks[i]) {
-            break;
-        }
-    }
-    return i;
 }
 
 void ServerProcess::CliCreate(const int fd) {
@@ -95,11 +82,8 @@ void ServerProcess::CliCreate(const int fd) {
 }
 
 void ServerProcess::ServerRunner() {
-
     while(true) {
-
-        int retval = select(maxFdsPlusOne, &rfds1_listen, NULL, NULL, &tv);
-        std::cout << "bruh";
+        int retval = select(maxFdsPlusOne, &rfds_listen, NULL, NULL, &tv);
         if(retval==-1) {
             //error the socket is not right
             perror("There is an error with the socket.");
@@ -108,11 +92,11 @@ void ServerProcess::ServerRunner() {
         if(retval==0) {
             //there is time out
             releaseResources();
-            exit(2);
+            return;
         }
         //retval is positive number. that means that one of our sockets recived data or
         //our listening socket recived a new connection that we need to accept.
-        if(FD_ISSET(listeningSock,&rfds)) {
+        if(FD_ISSET(listeningSock,&rfds_listen)) {
             // event on listening socket - accepting new clients
             struct sockaddr_in client_sin;
             int clientFd = acceptSoc(listeningSock, client_sin);
@@ -120,15 +104,9 @@ void ServerProcess::ServerRunner() {
                 return;
             }
             clientsNum++;
-            if( clientFd < MAX_CLIENTS_NUM) {
+            if(clientFd < MAX_CLIENTS_NUM) {
                 this->client_socks[clientFd] = 1;
-                if(maxFd < clientFd) {
-                    maxFd = clientFd;
-                }
             }
-            //maximum of all client_sockets +1.
-            maxFdsPlusOne = std::max(listeningSock, maxFd) + 1;
-            FD_SET(clientFd, &rfds);
             //creating new thread
             CliCreate(clientFd);
         }
@@ -136,9 +114,8 @@ void ServerProcess::ServerRunner() {
 }
 
 void ServerProcess::deleteSocket(int fd) {
-    maxFdsPlusOne = listeningSock + 1;
+    client_socks[fd] = 0;
     clientsNum--;
-    FD_CLR(fd,&rfds);
     close(fd);
 }
 

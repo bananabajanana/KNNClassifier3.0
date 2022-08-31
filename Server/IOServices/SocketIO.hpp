@@ -15,7 +15,6 @@ public:
     SocketIO(int socket, ServerProcess &s);
     std::string read() override;
     void write(std::string toWrite) override;
-
 };
 
 

@@ -18,7 +18,7 @@
 
 #define SERVER_PORT 6969
 #define CLIENT_TIME_OUT 10
-#define MAX_CLIENTS_NUM 1024
+#define MAX_CLIENTS_NUM 16
 #include <pthread.h>
 #include <map>
 #include <thread>
@@ -30,14 +30,12 @@ private:
 //region Server params
     int listeningSock;
     int client_socks[MAX_CLIENTS_NUM];
-    int maxFd;
     //select() requires the size of the array of sockets to be passed as the maximum socket number plus one.
     //see the man page of select.
     int maxFdsPlusOne;
     int clientsNum;
     //the set of all the sockets the our server has.
-    fd_set rfds;
-    fd_set rfds1_listen;
+    fd_set rfds_listen;
     //responsible for the time out.
     struct timeval tv;
 //endregion
