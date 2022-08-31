@@ -1,5 +1,6 @@
 #include "CLI.hpp"
 #include "Server/IOServices/SocketIO.hpp"
+#include "Server/IOServices/StandardIO.hpp"
 
 CLI::CLI(int fd, ServerProcess &server) : dio(new SocketIO(fd, server)) {
     Classifier *c = new Classifier(5);
@@ -10,6 +11,8 @@ CLI::CLI(int fd, ServerProcess &server) : dio(new SocketIO(fd, server)) {
     commands.push_back(new DisplayCommand(*c, dio));
     commands.push_back(new ConfusionMatrixCommand(*c, dio));
 }
+
+CLI::CLI() :dio(new StandardIO()){ }
 
 void CLI::start() {
     while(true) {
@@ -23,7 +26,6 @@ void CLI::start() {
 
         dio->write(menu);
         //endregion
-
         //region Choose command
         std::string decision = dio->read();
         try {
@@ -44,4 +46,8 @@ void CLI::start() {
         }
         //endregion
     }
+}
+
+CLI::~CLI() {
+    delete dio;
 }
