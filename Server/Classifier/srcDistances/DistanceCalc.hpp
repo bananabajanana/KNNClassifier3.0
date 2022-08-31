@@ -23,5 +23,7 @@ public:
      * @return the file name Output for the current distance function.
      */
     const std::string& toString() const;
+
+    ~DistanceCalc();
 };
 #endif

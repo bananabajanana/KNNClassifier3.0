@@ -46,3 +46,5 @@ void SocketIO::write(std::string message) {
 SocketIO::SocketIO(int socket, ServerProcess &s) :socket(socket), server(s) {
     toSend = "";
 }
+
+SocketIO::~SocketIO() = default;

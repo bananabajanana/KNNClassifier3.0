@@ -132,15 +132,14 @@ void ServerProcess::ServerRunner() {
             //creating new thread
             CliCreate(clientFd);
         }
-    }
+    } // while(true)
 }
 
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 void ServerProcess::deleteSocket(int fd) {
-    FD_CLR(fd,&rfds);
-    close(fd);
     maxFdsPlusOne = listeningSock + 1;
     clientsNum--;
+    FD_CLR(fd,&rfds);
+    close(fd);
 }
 
 //static

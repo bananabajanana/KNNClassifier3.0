@@ -30,6 +30,8 @@ public:
      */
     void write(std::string toWrite) override;
 
+    ~SocketIO();
+
 };
 
 
