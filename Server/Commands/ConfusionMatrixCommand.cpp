@@ -17,11 +17,10 @@ void ConfusionMatrixCommand::execute() {
     std::vector<Item> results = classifier.getTestOutputData();
     std::vector<Item> answers = classifier.getTestInputData();
     std::vector<std::string> types;
-    classifier.addTypes(results, types);
-    classifier.addTypes(answers, types);
+    Classifier::addTypes(results, types);
+    Classifier::addTypes(answers, types);
 
     int confusionCount[types.size()][types.size() + 1];
-
     //might need to figure out memset later...
     for(int i = 0; i < types.size(); i++) {
         for(int j = 0; j < types.size() + 1; j++) {
@@ -69,7 +68,7 @@ void ConfusionMatrixCommand::execute() {
     //endregion
 }
 
-int ConfusionMatrixCommand::findPosInVector(const std::vector<std::string> v, const Item &item) {
+int ConfusionMatrixCommand::findPosInVector(const std::vector<std::string>& v, const Item &item) {
     for(int i = 0; i < v.size(); i++) {
         if (v[i] == item.getTypeOfItem()) {
             return i;

@@ -13,5 +13,5 @@ const double EuclideanDistance::dist(const NPoint& p1, const NPoint& p2) const {
 }
 
 EuclideanDistance::EuclideanDistance() {
-    this->FILE_NAME = "EUC";
+    this->STRING_REPRESENTATION = "EUC";
 }

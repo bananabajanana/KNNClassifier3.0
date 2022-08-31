@@ -12,8 +12,22 @@ private:
     std::string toSend;
     ServerProcess server;
 public:
+    /**
+     * Constructor
+     * @param socket socket number for IO
+     * @param s Server that opened this SocketIO
+     */
     SocketIO(int socket, ServerProcess &s);
+
+    /**
+     * @return a message from the socket
+     */
     std::string read() override;
+
+    /**
+     * Write a message to the socket
+     * @param toWrite message to send
+     */
     void write(std::string toWrite) override;
 
 };

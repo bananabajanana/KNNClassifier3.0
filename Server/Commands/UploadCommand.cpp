@@ -1,13 +1,10 @@
 #include "UploadCommand.hpp"
 #include <string>
 #include <vector>
-#include <iostream>
-#include <fstream>
 #include <cstring>
-UploadCommand::UploadCommand(Classifier &classifier, DefaultIO *dio) : Command(classifier, dio, "upload an unclassified csv data file")
-{}
-void UploadCommand::execute()
-{
+UploadCommand::UploadCommand(Classifier &classifier, DefaultIO *dio) : Command(classifier, dio, "upload an unclassified csv data file"){}
+
+void UploadCommand::uploadTrain() {
     std::vector<Item> content;
     dio->write("\\upload train\n");
     std::string input = dio->read();
@@ -26,10 +23,12 @@ void UploadCommand::execute()
     }
     classifier.setTrainingData(content);
     dio->write("Upload complete.\n");
+}
 
-    content.clear();
+void UploadCommand::uploadTest() {
+    std::vector<Item> content;
     dio->write("\\upload test\n");
-    input = dio->read();
+    std::string input = dio->read();
     //maybe it should be the "done!"
     if (input.empty()) {
         return;
@@ -47,11 +46,16 @@ void UploadCommand::execute()
     dio->write("Upload complete.\n");
 }
 
+void UploadCommand::execute() {
+    uploadTrain();
+    uploadTest();
+}
+
 Item& UploadCommand::itemFromLine(char *st) {
     char * val;
     std::vector<std::string> parameters;
     val = strtok(st, ",");
-    while( val != NULL ) {
+    while( val != nullptr ) {
         parameters.push_back(val);
         val = strtok(nullptr, ",");
     }

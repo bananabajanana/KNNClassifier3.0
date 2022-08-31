@@ -5,6 +5,7 @@
 Classifier::Classifier(int k) : k(k), wasTestClassified(false) {
     this->dist = new EuclideanDistance();
 }
+
 void Classifier::setTestData(const std::vector<Item>& unClassified) {
     this->outputTestData.clear();
     this->inputTestData.clear();
@@ -78,7 +79,6 @@ void Classifier::defItem(Item& item, DistanceCalc& typeDis) {
     });
     item.setType(maxPair->first);
 }
-
 
 int Classifier::whereMinInArr(std::vector<double>& distances) {
     double min = MAX_NUM;

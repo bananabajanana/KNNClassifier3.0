@@ -120,8 +120,6 @@ public:
     const bool wasClassified();
 
     /**
-     * !!!!!MICHALLL!!!!
-     *      might be more efficient to use maps, but need the types with a certain order...
      * @param items a vector of items with different types
      * @return a vector of the different types.
      */

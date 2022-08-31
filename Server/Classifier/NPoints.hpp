@@ -9,18 +9,18 @@ class NPoint {
 private:
      std::vector<double> Point;
 public:
-    NPoint(std::vector<double> properties);
+    NPoint(std::vector<double>& properties);
     /**
      * Returns the point.
      * @return  point.
      */
-    const std::vector<double> getPoint() const;
+    std::vector<double> getPoint() const;
 
     /**
      * Returns the number of dimensions.
      * @return N.
      */
-    const int getN() const;
+    int getN() const;
 
     /**
      * Creates a point in the coordinate system using the properties.

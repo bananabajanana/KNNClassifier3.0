@@ -8,7 +8,7 @@
 
 class DistanceCalc {
 protected:
-    std::string FILE_NAME;
+    std::string STRING_REPRESENTATION;
 public:
 
     /**
@@ -22,6 +22,6 @@ public:
     /**
      * @return the file name Output for the current distance function.
      */
-    const std::string& fileName() const;
+    const std::string& toString() const;
 };
 #endif

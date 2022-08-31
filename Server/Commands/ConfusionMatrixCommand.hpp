@@ -8,14 +8,11 @@ class ConfusionMatrixCommand : public Command{
 private:
     /**
      * Helper function that finds a position of an item's type in a vector.
-     * !!!!MICHAL!!!!
-     *      There probably is an existing function for this that i didn't find...
-     *      please help...
-     * @param v
-     * @param item
-     * @return
+     * @param v vector to search in
+     * @param item item of which type we want to search
+     * @return the position of the type in the vector
      */
-    static int findPosInVector(const std::vector<std::string> v, const Item& item);
+    static int findPosInVector(const std::vector<std::string>& v, const Item& item);
 
 public:
     /**
