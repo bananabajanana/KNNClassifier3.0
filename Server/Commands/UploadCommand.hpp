@@ -5,7 +5,7 @@
 
 class UploadCommand : public Command {
 private:
-    static Item& itemFromLine(char *st);
+    static Item* itemFromLine(char *st);
 
     void uploadTrain();
 

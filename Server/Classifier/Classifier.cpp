@@ -125,17 +125,14 @@ Classifier::~Classifier() {
     while(!trainingData.empty()) {
         Item temp = trainingData.back();
         trainingData.pop_back();
-        delete &temp;
     }
     while(!outputTestData.empty()) {
         Item temp = outputTestData.back();
         outputTestData.pop_back();
-        delete &temp;
     }
     while(!inputTestData.empty()) {
         Item temp = inputTestData.back();
         inputTestData.pop_back();
-        delete &temp;
     }
     delete dist;
 }

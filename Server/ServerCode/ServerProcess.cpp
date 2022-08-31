@@ -1,5 +1,5 @@
 #include "ServerProcess.hpp"
-std::map<pthread_t, pthread_t> ServerProcess::threadsMap = *(new std::map<pthread_t, pthread_t>());
+std::map<pthread_t, pthread_t> ServerProcess::threadsMap;
 
 ServerProcess::ServerProcess() {
     listeningSock = serverInitialization(SERVER_PORT);
@@ -49,17 +49,19 @@ void ServerProcess::listenSoc(int sock) {
 
 void ServerProcess::releaseResources() {
     //Release of the resources.
+    close(listeningSock);
+
+    for(auto i:threadsMap) {
+        pthread_join(i.first,NULL);
+    }
+    // Iterate the map and make pthread_join to wait for all active threads.
+
     for(int i=0; i< MAX_CLIENTS_NUM;i++) {
         if(client_socks[i]) {
             close(client_socks[i]);
         }
     }
-    close(listeningSock);
     //close threads!
-    for(auto i:threadsMap) {
-        pthread_join(i.first,NULL);
-    }
-    // Iterate the map and make pthread_join to wait for all active threads.
 }
 
 int ServerProcess::acceptSoc(int sock, struct sockaddr_in client_sin) {
@@ -85,7 +87,7 @@ int ServerProcess::searchMaxFd() {
 void ServerProcess::CliCreate(const int fd) {
     CLI* cli = new CLI(fd, *this);
     pthread_t threadId;
-    int res = pthread_create(&threadId, NULL,threadFunc, (void*)cli);
+    int res = pthread_create(&threadId, nullptr,threadFunc, (void*)cli);
     if(res == -1) {
         perror("pthread_create failed");
         return;
@@ -97,9 +99,7 @@ void ServerProcess::CliCreate(const int fd) {
 void ServerProcess::ServerRunner() {
 
     while(true) {
-
         int retval = select(maxFdsPlusOne, &rfds1_listen, NULL, NULL, &tv);
-        std::cout << "bruh";
         if(retval==-1) {
             //error the socket is not right
             perror("There is an error with the socket.");
@@ -108,7 +108,7 @@ void ServerProcess::ServerRunner() {
         if(retval==0) {
             //there is time out
             releaseResources();
-            exit(2);
+            return;
         }
         //retval is positive number. that means that one of our sockets recived data or
         //our listening socket recived a new connection that we need to accept.
@@ -155,4 +155,5 @@ void* ServerProcess::threadFunc(void* args) {
     threadsMap.erase(pid);
     locker.unlock();
     //remove pid from static map
+    pthread_exit(0);
 }

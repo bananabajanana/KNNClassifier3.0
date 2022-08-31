@@ -20,7 +20,6 @@ add_executable(Server
         Server/Commands/SettingsCommand.hpp
         Server/Commands/UploadCommand.cpp
         Server/Commands/UploadCommand.hpp
-        Server/IOServices/DefaultIO.cpp
         Server/IOServices/DefaultIO.hpp
         Server/IOServices/SocketIO.cpp
         Server/IOServices/SocketIO.hpp

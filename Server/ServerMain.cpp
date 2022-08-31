@@ -11,4 +11,5 @@
 int main() {
     ServerProcess *server = new ServerProcess();
     server->ServerRunner();
+    delete server;
 }

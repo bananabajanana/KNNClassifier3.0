@@ -24,13 +24,13 @@ Item::Item(double* properties, int n)
     this->type = "";
 }
 
-Item::Item(const std::vector<double>& properties, const std::string& type)
+Item::Item(std::vector<double>& properties, const std::string& type)
         :character(properties)
 {
     this->type = type;
 }
 
-Item::Item(const std::vector<double>& properties)
+Item::Item(std::vector<double>& properties)
         :character(properties)
 {
     this->type = "";

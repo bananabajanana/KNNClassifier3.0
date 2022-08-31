@@ -14,7 +14,9 @@ void UploadCommand::uploadTrain() {
     }
     while(input!="DONE"){
         char* info = const_cast<char *>(input.c_str());
-        content.push_back(itemFromLine(info));
+        Item *I = itemFromLine(info);
+        content.push_back(*I);
+        delete I;
         dio->write("\\next\n");
         input = dio->read();
         if (input.empty()) {
@@ -35,7 +37,9 @@ void UploadCommand::uploadTest() {
     }
     while(input!="DONE"){
         char* info = const_cast<char *>(input.c_str());
-        content.push_back(itemFromLine(info));
+        Item *I = itemFromLine(info);
+        content.push_back(*I);
+        delete I;
         dio->write("\\next\n");
         input = dio->read();
         if (input.empty()) {
@@ -51,7 +55,7 @@ void UploadCommand::execute() {
     uploadTest();
 }
 
-Item& UploadCommand::itemFromLine(char *st) {
+Item* UploadCommand::itemFromLine(char *st) {
     char * val;
     std::vector<std::string> parameters;
     val = strtok(st, ",");
@@ -73,5 +77,5 @@ Item& UploadCommand::itemFromLine(char *st) {
         output->setType(temp);
     }
 
-    return *output;
+    return output;
 }

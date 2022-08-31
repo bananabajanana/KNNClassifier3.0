@@ -50,7 +50,7 @@ private:
     /**
      * Manages any non-specific command
      */
-    void generalCommand();
+    void generalCommand(std::string message);
 
     /**
      * Load a message from the server to the object's buffer array.
