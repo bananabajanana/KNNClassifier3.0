@@ -7,7 +7,7 @@
 #include <arpa/inet.h>
 #endif
 #include <string.h>
-#include <fcntl.h>
+
 bool hasChar(char *arr, int n, char c) {
     for(int i = 0; i < n; i++) {
         if (arr[i] == c) {
@@ -34,23 +34,12 @@ std::string SocketIO::read() {
     std::string output = "";
     char buffer[4096]={0};
     int stopCounter = 0;
-    //fcntl(socket, F_SETFL, O_NONBLOCK); /* Change the socket into non-blocking state	*/
     do {
         int read_bytes = recv(socket, buffer, expected_data_len, 0);
         if (read_bytes <= 0) {
-            if(errno == EAGAIN || errno == EWOULDBLOCK) {
-                stopCounter++;
-                if(stopCounter > CLIENT_TIME_OUT*10) {
-                    server.deleteSocket(socket);
-                    return "7";
-                }
-                std::this_thread::sleep_for(std::chrono::milliseconds(100));
-                continue;
-            }
-            else {
-                server.deleteSocket(socket);
-                return "7";
-            }
+            server.deleteSocket(socket);
+            return "7";
+
         }
         output += buffer;
     } while(output[output.length() - 1] != '\003');
