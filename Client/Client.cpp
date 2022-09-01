@@ -98,8 +98,7 @@ void ClientProcess::downloadCommand(std::string args) {
     getFile(message + args);
 }
 
-void ClientProcess::generalCommand() {
-    std::string message;
+void ClientProcess::generalCommand(std::string message) {
     std::cout << message;
 
     std::getline(std::cin, message);
@@ -145,7 +144,7 @@ void ClientProcess::runClient() {
                     //endregion
                 }
             } else {
-                generalCommand();
+                generalCommand(message);
             }
         } catch (std::runtime_error &e) {
             if (strcmp(e.what(), "Client Error: Server closed the connection") == 0) {

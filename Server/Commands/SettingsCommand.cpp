@@ -63,6 +63,7 @@ void SettingsCommand::execute() {
             classifier.setDistanceType(new ChebyshevDistance);
         }
         delete old;
+        return;
         //endregion
     }
 }

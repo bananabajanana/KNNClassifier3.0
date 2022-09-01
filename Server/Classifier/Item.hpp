@@ -50,13 +50,13 @@ public:
      * @param properties item's properties
      * @param type item's type
      */
-    Item(const std::vector<double>& properties, const std::string& type);
+    Item(std::vector<double>& properties, const std::string& type);
 
     /**
      * Constructor
      * @param properties item's properties
      */
-    Item(const std::vector<double>& properties);
+    Item(std::vector<double>& properties);
 
     /**
      * Adds a single property at the end of the item's properties vector.

@@ -29,7 +29,6 @@ public:
      */
     NPoint(double* properties, int n);
 
-
     /**
      * Get array of N properties and makes from that a point that is a vector.
      * @param properties - the properties of a point.

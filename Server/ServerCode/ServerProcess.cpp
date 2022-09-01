@@ -1,5 +1,5 @@
 #include "ServerProcess.hpp"
-std::map<pthread_t, pthread_t> ServerProcess::threadsMap = *(new std::map<pthread_t, pthread_t>());
+std::map<pthread_t, pthread_t> ServerProcess::threadsMap;
 
 ServerProcess::ServerProcess() {
     listeningSock = serverInitialization(SERVER_PORT);
@@ -44,19 +44,20 @@ void ServerProcess::listenSoc(int sock) {
 }
 
 void ServerProcess::releaseResources() {
-    //close threads!
+    //Release of the resources.
+    close(listeningSock);
+
     for(auto i:threadsMap) {
         pthread_join(i.first,NULL);
     }
     // Iterate the map and make pthread_join to wait for all active threads.
-    //Release of the resources.
+
     for(int i=0; i< MAX_CLIENTS_NUM;i++) {
         if(client_socks[i]) {
             close(client_socks[i]);
         }
     }
-    close(listeningSock);
-
+    //close threads!
 }
 
 int ServerProcess::acceptSoc(int sock, struct sockaddr_in client_sin) {
@@ -82,6 +83,7 @@ void ServerProcess::CliCreate(const int fd) {
 }
 
 void ServerProcess::ServerRunner() {
+
     while(true) {
         int retval = select(maxFdsPlusOne, &rfds_listen, NULL, NULL, &tv);
         if(retval==-1) {
@@ -132,4 +134,5 @@ void* ServerProcess::threadFunc(void* args) {
     threadsMap.erase(pid);
     locker.unlock();
     //remove pid from static map
+    pthread_exit(0);
 }
