@@ -26,8 +26,10 @@ void SettingsCommand::execute() {
         //region Try Converting Variables
         std::string kValue;
         std::string metValue;
+        char *head;
         try {
             char *inputPtr = strdup(input.c_str());
+            head = inputPtr;
             kValue = strtok(inputPtr, " ");
             metValue = strtok(nullptr, " ");
         } catch (std::exception &e) {
@@ -63,6 +65,7 @@ void SettingsCommand::execute() {
             classifier.setDistanceType(new ChebyshevDistance);
         }
         delete old;
+        free(head);
         return;
         //endregion
     }
