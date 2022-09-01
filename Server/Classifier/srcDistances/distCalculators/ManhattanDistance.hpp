@@ -11,10 +11,6 @@ public:
      *  override
      **/
     const double dist(const NPoint& p1, const NPoint& p2) const override;
-
-    /**
-     * Changes the file name
-     */
     ManhattanDistance();
 };
 

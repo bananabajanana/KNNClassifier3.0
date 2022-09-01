@@ -1,5 +1,7 @@
 #include "DistanceCalc.hpp"
 
-const std::string& DistanceCalc::fileName() const {
-    return FILE_NAME;
+const std::string& DistanceCalc::toString() const {
+    return STRING_REPRESENTATION;
 }
+
+DistanceCalc::~DistanceCalc() = default;

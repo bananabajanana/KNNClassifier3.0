@@ -8,15 +8,6 @@
 #endif
 #include <string.h>
 
-bool hasChar(char *arr, int n, char c) {
-    for(int i = 0; i < n; i++) {
-        if (arr[i] == c) {
-            return true;
-        }
-    }
-    return false;
-}
-
 std::string SocketIO::read() {
     //region SendingBacklog
     toSend += '\003';
@@ -38,8 +29,7 @@ std::string SocketIO::read() {
         int read_bytes = recv(socket, buffer, expected_data_len, 0);
         if (read_bytes <= 0) {
             server.deleteSocket(socket);
-            return "7";
-
+            throw std::runtime_error("Connection failed");
         }
         output += buffer;
     } while(output[output.length() - 1] != '\003');
@@ -55,4 +45,8 @@ void SocketIO::write(std::string message) {
 
 SocketIO::SocketIO(int socket, ServerProcess &s) :socket(socket), server(s) {
     toSend = "";
+}
+
+SocketIO::~SocketIO() {
+    server.deleteSocket(socket);
 }

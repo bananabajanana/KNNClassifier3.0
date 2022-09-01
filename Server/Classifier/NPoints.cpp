@@ -5,12 +5,12 @@ NPoint::NPoint(double* properties, int n)
 {
 }
 
-NPoint::NPoint(std::vector<double> properties)
+NPoint::NPoint(std::vector<double>& properties)
         : Point(properties)
 {
 }
 
-const std::vector<double> NPoint::getPoint() const {
+std::vector<double> NPoint::getPoint() const {
     return Point;
 }
 
@@ -22,7 +22,7 @@ std::vector<double> NPoint::makePoint(double* properties, int n) {
     return temp;
 }
 
-const int NPoint::getN() const{
+int NPoint::getN() const{
     return Point.size();
 }
 void NPoint::pushProperty(double property) {

@@ -5,22 +5,25 @@ SettingsCommand::SettingsCommand(Classifier &classifier, DefaultIO *dio) : Comma
 
 std::string SettingsCommand::stringSettings(Classifier &classifier) {
     std::string output = "The current KNN parameters are: K = " + std::to_string(classifier.getK());
-    output += ", distance metric = " + classifier.getDistanceType()->fileName();
+    output += ", distance metric = " + classifier.getDistanceType()->toString();
     output += "\n";
     return output;
 }
 
 void SettingsCommand::execute() {
+    //write settings
     std::string message = stringSettings(classifier);
     dio->write(message);
     std::string input;
 
     while (true) {
         input = dio->read();
+
         if (input == "\\empty") {
             return;
         }
 
+        //region Try Converting Variables
         std::string kValue;
         std::string metValue;
         try {
@@ -52,7 +55,6 @@ void SettingsCommand::execute() {
         classifier.setK(newK);
         DistanceCalc *old = classifier.getDistanceType();
 
-        //not really _oopy_, should probably fix later.
         if (metValue == "EUC") {
             classifier.setDistanceType(new EuclideanDistance);
         } else if(metValue == "MAN") {
@@ -61,6 +63,6 @@ void SettingsCommand::execute() {
             classifier.setDistanceType(new ChebyshevDistance);
         }
         delete old;
-        return;
+        //endregion
     }
 }

@@ -5,6 +5,7 @@
 Classifier::Classifier(int k) : k(k), wasTestClassified(false) {
     this->dist = new EuclideanDistance();
 }
+
 void Classifier::setTestData(const std::vector<Item>& unClassified) {
     this->outputTestData.clear();
     this->inputTestData.clear();
@@ -79,7 +80,6 @@ void Classifier::defItem(Item& item, DistanceCalc& typeDis) {
     item.setType(maxPair->first);
 }
 
-
 int Classifier::whereMinInArr(std::vector<double>& distances) {
     double min = MAX_NUM;
     for(double distance : distances) {
@@ -109,7 +109,7 @@ const std::vector<Item> &Classifier::getTrainingData() {
     return trainingData;
 }
 
-const bool Classifier::wasClassified() {
+bool Classifier::wasClassified() const {
     return wasTestClassified;
 }
 
@@ -119,4 +119,23 @@ void Classifier::addTypes(const std::vector<Item> &items, std::vector<std::strin
             output.push_back(items[i].getTypeOfItem());
         }
     }
+}
+
+Classifier::~Classifier() {
+    while(!trainingData.empty()) {
+        Item temp = trainingData.back();
+        trainingData.pop_back();
+        delete &temp;
+    }
+    while(!outputTestData.empty()) {
+        Item temp = outputTestData.back();
+        outputTestData.pop_back();
+        delete &temp;
+    }
+    while(!inputTestData.empty()) {
+        Item temp = inputTestData.back();
+        inputTestData.pop_back();
+        delete &temp;
+    }
+    delete dist;
 }
