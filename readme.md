@@ -232,9 +232,9 @@ class CLI {
 
 * **Port = 6969** We chose this port number since it is not a commonly used port and is not part of the super-user port range (0-1024). [2]
 * **Timeout = 15sec** Currently the Timeout is pretty small considering the server is supposed to wait for unrelated people to connect, but it is this way to demonstrate that timeout works without needing to wait exceptionally long each time.
-* **Buffer Size = 4096** From various test cases and calculation known about the limitations of the input and output files, we concluded that this size is the minimum multiple of 2 that is big enough for our project. (It's mainly this big because of the [buffer system]())
+* **Buffer Size = 4096** From various test cases and calculation known about the limitations of the input and output files, we concluded that this size is the minimum multiple of 2 that is big enough for our project. (It's mainly this big because of the buffer system as explaind in **IOServices** above)
 
-It is important to mention that each of these variables are easily changeable in the [ServerProcess code]()
+It is important to mention that each of these variables are easily changeable in the [ServerProcess code](https://github.com/bananabajanana/KNNClassifier3.0/blob/4c8c2ba1275d9e308be0b3c4ba5c412ba2742d88/Server/ServerCode/ServerProcess.hpp#L19-L21)
 
 
 ----
@@ -312,7 +312,7 @@ All the transitions are managed by a middle step we'll call <code>Select</code>.
 
 ### Client
 
-The client is a sort of *simple demo* for interaction with the server. On activation it connects to the server, and then relies each message from the server to the user and replies back the user's input. This is done in a continuous loop unless a special [Client-Command]() is sent from the server (i.e. uploading and downloading files) to the client. 
+The client is a sort of *simple demo* for interaction with the server. On activation, it connects to the server, and then sends each message from the server to the user and replies back the user's input. This is done in a continuous loop unless a special **Client Command** is sent from the server (i.e. uploading and downloading files) to the client. 
 
 ```mermaid
 graph TD;
