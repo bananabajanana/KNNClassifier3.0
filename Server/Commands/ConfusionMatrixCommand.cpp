@@ -57,8 +57,11 @@ void ConfusionMatrixCommand::execute() {
         output += types[i];
         for(int j = 0; j < types.size(); j++) {
             if (confusionCount[i][types.size()] > 0) {
-                output += "\t\t";
-                output += std::to_string((confusionCount[i][j] * 100) / confusionCount[i][types.size()]);
+                std::string temp = std::to_string((confusionCount[i][j] * 100) / confusionCount[i][types.size()]);
+                if (temp.length() < 4) {
+                    output += "\t";
+                }
+                output += temp;
                 output += "%";
             } else {
                 output += "\t\t0%";
@@ -67,7 +70,9 @@ void ConfusionMatrixCommand::execute() {
         output += "\n";
     }
     for(int i = 0; i < types.size(); i++) {
-        output += "\t\t";
+        if (types[i].length() < 4) {
+            output += "\t";
+        }
         output += types[i];
     }
     output += "\n\n";

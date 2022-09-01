@@ -277,12 +277,11 @@ graph TD;
 
 ### !Client Remarks!
 
-In our project, we were asked to implement the download command in a different thread, so we could download while asking other things from the server, but we didn't implement that.
+In our project we were asked to implement the client such that waiting for server comments does not block inputting new data, and yet, we didn't implement this since this needs a multi-threaded approach to the client side, which contradicts the instructions to not use multi-threading in the client.
 
-This is because the download process involves both the server and the client (as the server doesn't have access to the client's files), 
-which means a parallel execution as mentioned would need multi-threading on both the server and client, and opening another socket for 
-file communication (aside from the main communication socket). This felt to us an enormous amount of work, considering the client was 
-specified to not have multi-threading, and there was never a hint at needing multiple sockets for any single client. 
+If we were to implement this, we would give the client a member that saves a "backlog" of sorts (maybe as a queue of messages). Each time the user gives an input, we would add the string to this backlog, and whenever the server waits for an input, we would send the first message in this queue. This ordeal would function with two threads: the first managing input sent by the user - constantly reading and adding to the backlog, and the second managing the actual server interaction - reading messages from it and sending the backlog messages back when needed.
+
+We are sorry if we were meant to implement this and misunderstood. Please understand that the guidelines had parts which contradicted each other, and we tried to follow them to the best of our abilities! 
 
 ----
 ## Authors
