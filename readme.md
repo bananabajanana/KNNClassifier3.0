@@ -2,7 +2,7 @@
 <em>"In statistics, the k-nearest neighbors algorithm (k-NN) is a non-parametric supervised learning method [...] k-NN is a type of classification where the function is only approximated locally and all computation is deferred until function evaluation"</em> [1]
 
 This project is a demonstration of server and client sides, 
-that provide tools for classification of groups or items with the k-NN classification algorithm. 
+that provide tools for classification of groups of items with the k-NN classification algorithm. 
 
 ----
 #### This project is written in <b>c++</b>, by <b>Michal Iakobashvili</b> and <b>Ohad Heines</b>
@@ -80,7 +80,7 @@ We first save the objects themselves as Items, which each keep an item's charact
 
 
 ```c++
-class Flower {
+class Item {
 private:
     string type;
     const NPoint character;
@@ -127,6 +127,10 @@ Each command has to implement two major things in order to be added to the serve
 The current list of commands is as follows
 * upload an unclassified csv data file - lets the client upload both a training data file and a testing data file.
 * algorithm settings - lets the user view and change the k value and distance calculation method for the algorithm (accepted k values between 1 and 10, and valid calculation methods are "EUC" (Euclidean), "MAN" (Manhattan), "CHE" (Chebyshev)).
+* classify data - asks the server to classify the data currently uploaded.
+* display results - displays the results from the previous classification.
+* download results - lets the user download the classification results from the previous classification to its computer.
+* display algorithm confusion matrix - displays the algorithm's confusion matrix.
 </p></details>
 
 <details><summary>
@@ -200,7 +204,7 @@ This infrastructure makes sure we only send a message to the client when we expe
 
 #### These files manage the server processes. These are all about managing multiple clients, assigning sockets and threads, dealing with errors and making sure there are no memory leaks.
 
-The server code is divided to two different object files. First manages the CLI (Command Line Interface) and communication with a single Client. And the second manages the management of sockets and threads for the server as a whole.
+The server code is divided to two different object files. First manages the CLI (Command Line Interface) and communication with a single Client. And the second handles the management of sockets and threads for the server as a whole.
 
 Thanks to all of our previous work, the CLI Object is relatively small and simple. It has one function `start`, which enters a continuous loop of printing the menu, waiting for a command decision, and executing the corresponding command.
 
@@ -224,7 +228,23 @@ class CLI {
 
 *Please note that this is merely a schematic representation of the algorithm, and there is more going on behind the scenes.*
 
-## !!!!MICHAL ADD SERVERPROCESS EXPLENATION HERE!!!!
+The ServerProcess, manages multi-threading and socket assignment for new users. In addition, It manages the timeout mechanism and makes sure there are no memory leaks.
+
+```mermaid
+graph TD;
+    Listen-->Accept;
+    Accept.->CLI1-->Wait_For_Users;
+    Accept.->CLI2-->Wait_For_Users;
+    Accept.->CLI3-->Wait_For_Users;
+    Listen-.timeout.->Wait_For_Users;
+    Wait_For_Users-->Close_Server;
+```
+
+* `Listen`: The server waits for a user to connect.
+* `Accept`: The accept stage in the connection process.
+* `CLI`: A communication is created between the server and the client in a different thread.
+* `Wait_For_Users`: Once the listen reached a timeout, it waits for the remaining users to finish their communication with the server.
+* `Close_Server`: Frees remaining data from the heap.
 
 </p></details>
 
@@ -236,77 +256,6 @@ class CLI {
 
 It is important to mention that each of these variables are easily changeable in the [ServerProcess code](https://github.com/bananabajanana/KNNClassifier3.0/blob/4c8c2ba1275d9e308be0b3c4ba5c412ba2742d88/Server/ServerCode/ServerProcess.hpp#L19-L21)
 
-
-----
-<details><summary> <b>old</b> </summary>>
-We first created a Flower object, that will store a single flower's type and parameters. The flower's type is stored as an enum, with four options: the three possible types, and an undefined option.
-
-```c++
-enum typeIris { versicolor, virginica, setosa, undifined };
-
-class Flower {
-private:
-    typeIris type;
-    const NPoint character;
-    ...
-};
-```
-The NPoint is a representation of the Flower's parameters, and functions as a point in an N-dimensional coordinate system (in 4d with the current implementation example, but can easily be expanded).
-
-Our code implements the algorithm with three different possible distance functions: Euclidean distance, Manhattan distance, and Chebyshev distance, but to allow the addition of other distance functions, we implemented generic code with an abstract distance class.
-
-```c++
-class DistanceCalc {
-public:
-    virtual double distance(NPoint p1, NPoint p2) = 0;
-    ...
-};
-```
-
-In addition, to keep track of all our different types of distances implemented, we made a DistancesData builder class.
-
-```c++
-class DistancesData {
-    /**
-     * @return all the types of distance calculators that can be used.
-     */
-    static std::vector<DistanceCalc*>& getAllTypes();
-};
-```
-
-Finally, we created a Classifier class. This class identifies a given vector of flowers based on an input list of already identified Irises. This is implemented step-by-step according to the kNN algorithm, first finding the k closest neighbors to the unidentifiable flower, and then finding which category is most common among them.
-
-With these implemented, the server runs indefinitely in the following loop:
-
-```mermaid
-graph TD;
-    Listen-->Accept;
-    Accept-->DataFromUser;
-    DataFromUser-->OutputClass;
-    OutputClass-->DataFromUser;
-    OutputClass-->UserDisconnects;
-    UserDisconnects-->Accept;
-```
-
-* <code>Listen</code>: The server waits for a user to connect.
-* <code>Accept</code>: The accept stage in the connection process.
-* <code>DataFromUser</code>: The server receives information about an unclassified flower from the user.
-* <code>OutputClass</code>: The server sends to the user the classification of the flower.
-* <code>UserDisconnects</code>: The current user disconnects, allowing the server to interact with a new user.
-
-All the transitions are managed by a middle step we'll call <code>Select</code>. The <code>Select</code> is in charge of managing the following things:
-1. Gracefully closing the server in case of internal errors.
-2. Managing timeouts: if there is a non-active client - kick it, and in any case keep listening for further actions.
-3. If there are no connected clients, a client must be connecting, and we'll accept it.
-4. If there is an active client, we'll communicate with it through the server protocol.
-
-### Server Parameters
-
-* **Port = 6969** We chose this port number since it is not a commonly used port and is not part of the super-user port range (0-1024). [2]
-* **Timeout = 5sec** We gave clients a generous amount of time before kicking them out.
-* **Buffer Size = 1024** Since the user can only send one flower info at a time, we limited the user's message size to 128 bytes.
-
-</details>
 
 ----
 
@@ -325,6 +274,15 @@ graph TD;
 * `Read`: The client reads a message from the server.
 * `Write`: If the message received was a normal message, it *passes it forward* to the user and replies to the server the user's response
 * `Special Command`: If a message follows the syntax `\{command name} {command arguments}`, the server runs the corresponding command with it's given arguments. This includes mainly the Download and Upload commands, in which the client reads/writes to a file, and sends/receives the contents from the server, without concerning the user about it.
+
+### !Client Remarks!
+
+In our project, we were asked to implement the download command in a different thread, so we could download while asking other things from the server, but we didn't implement that.
+
+This is because the download process involves both the server and the client (as the server doesn't have access to the client's files), 
+which means a parallel execution as mentioned would need multi-threading on both the server and client, and opening another socket for 
+file communication (aside from the main communication socket). This felt to us an enormous amount of work, considering the client was 
+specified to not have multi-threading, and there was never a hint at needing multiple sockets for any single client. 
 
 ----
 ## Authors
