@@ -24,6 +24,6 @@ public:
      */
     const std::string& toString() const;
 
-    ~DistanceCalc();
+    virtual ~DistanceCalc() = default;
 };
 #endif

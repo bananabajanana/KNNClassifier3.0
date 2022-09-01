@@ -12,9 +12,7 @@ std::string SocketIO::read() {
     //region SendingBacklog
     toSend.push_back('\003');
     char* toSendArr = const_cast<char *>(toSend.c_str());
-    std::cout << toSendArr << std::endl;
     int message_len = strlen(toSendArr);
-    std::cout << message_len << std::endl;
     int sent_bytes = send(socket, toSendArr, message_len, 0);
 
     if (sent_bytes < 0) {

@@ -45,6 +45,14 @@ void ConfusionMatrixCommand::execute() {
 
     //region PrintingConfusionMatrix
     std::string output = "";
+
+    int maxChars = 4;
+    for(int i = 0; i < types.size(); i++) {
+        if(types[i].length() > maxChars) {
+            maxChars = types[i].length();
+        }
+    }
+
     for(int i = 0; i < types.size(); i++) {
         output += types[i];
         for(int j = 0; j < types.size(); j++) {

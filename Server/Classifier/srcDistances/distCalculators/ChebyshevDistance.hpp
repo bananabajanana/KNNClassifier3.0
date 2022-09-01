@@ -13,6 +13,7 @@ public:
      **/
     const double dist(const NPoint& p1, const NPoint& p2) const override;
     ChebyshevDistance();
+    ~ChebyshevDistance() override = default;
 };
 
 #endif

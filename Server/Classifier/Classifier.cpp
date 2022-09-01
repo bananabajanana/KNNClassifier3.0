@@ -122,6 +122,7 @@ void Classifier::addTypes(const std::vector<Item> &items, std::vector<std::strin
 }
 
 Classifier::~Classifier() {
+    delete dist;
     while(!trainingData.empty()) {
         Item temp = trainingData.back();
         trainingData.pop_back();
@@ -134,5 +135,4 @@ Classifier::~Classifier() {
         Item temp = inputTestData.back();
         inputTestData.pop_back();
     }
-    delete dist;
 }
