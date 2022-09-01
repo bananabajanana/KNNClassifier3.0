@@ -42,7 +42,6 @@ std::string SocketIO::read() {
 
 void SocketIO::write(std::string message) {
     toSend += message;
-
 }
 
 SocketIO::SocketIO(int socket, ServerProcess &s) :socket(socket), server(s) {
