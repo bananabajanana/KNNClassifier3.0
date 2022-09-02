@@ -5,17 +5,17 @@ ConfusionMatrixCommand::ConfusionMatrixCommand(Classifier &classifier, DefaultIO
 
 void ConfusionMatrixCommand::execute() {
     //region Edge Case-handling
-    if(!classifier.isThereTestData()) {
-        dio->write("No testing data was given!\n");
+    if(!classifier.isThereTrainingData()) {
+        dio->write("No train data was given!\n");
         return;
-    } else if(!classifier.wasClassified()) {
-        classifier.defItems();
+    } else {
+        classifier.defTrainingData();
     }
     //endregion
 
     //region Var Initialization
-    std::vector<Item> results = classifier.getTestOutputData();
-    std::vector<Item> answers = classifier.getTestInputData();
+    std::vector<Item> results = classifier.getClassifiedTrainingData();
+    std::vector<Item> answers = classifier.getOriginalTrainingData();
     std::vector<std::string> types;
     Classifier::addTypes(results, types);
     Classifier::addTypes(answers, types);

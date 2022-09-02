@@ -8,18 +8,18 @@ Classifier::Classifier(int k) : k(k), wasTestClassified(false) {
 
 void Classifier::setTestData(const std::vector<Item>& unClassified) {
     this->outputTestData.clear();
-    this->inputTestData.clear();
     for(auto& item:unClassified) {
         this->outputTestData.push_back(item);
-        this->inputTestData.push_back(item);
     }
     wasTestClassified = false;
 }
 
 void Classifier::setTrainingData(const std::vector<Item>& classified) {
-    this->trainingData.clear();
+    this->originalTrainingData.clear();
+    this->classifiedTrainingData.clear();
     for(auto& item:classified) {
-        this->trainingData.push_back(item);
+        this->originalTrainingData.push_back(item);
+        this->classifiedTrainingData.push_back(item);
     }
 }
 
@@ -28,6 +28,12 @@ void Classifier::defItems(){
         defItem(outputTestData[i], *dist);
     }
     wasTestClassified = true;
+}
+
+void Classifier::defTrainingData() {
+    for(int i = 0; i < classifiedTrainingData.size(); i++) {
+        defItem(classifiedTrainingData[i], *dist);
+    }
 }
 
 void Classifier::setDistanceType(DistanceCalc *dist) {
@@ -47,7 +53,7 @@ int Classifier::getK() {
 }
 
 bool Classifier::isThereTrainingData() {
-    return !trainingData.empty();
+    return !originalTrainingData.empty();
 }
 
 bool Classifier::isThereTestData() {
@@ -57,12 +63,12 @@ bool Classifier::isThereTestData() {
 void Classifier::defItem(Item& item, DistanceCalc& typeDis) {
     std::vector<double> distances;
     std::vector<Item> results;
-    for(auto & i : trainingData) {
+    for(auto & i : originalTrainingData) {
         distances.push_back(typeDis.dist(item.getPoint(), i.getPoint()));
     }
 
     for(int i=0;i<k;i++) {
-        results.push_back(trainingData[whereMinInArr(distances)]);
+        results.push_back(originalTrainingData[whereMinInArr(distances)]);
     }
 
     std::map<std::string, double> mapTypes;
@@ -101,12 +107,14 @@ const std::vector<Item> &Classifier::getTestOutputData() {
     return outputTestData;
 }
 
-const std::vector<Item> &Classifier::getTestInputData() {
-    return inputTestData;
+const std::vector<Item> &Classifier::getClassifiedTrainingData() {
+    return classifiedTrainingData;
 }
 
-const std::vector<Item> &Classifier::getTrainingData() {
-    return trainingData;
+
+
+const std::vector<Item> &Classifier::getOriginalTrainingData() {
+    return originalTrainingData;
 }
 
 bool Classifier::wasClassified() const {
@@ -123,16 +131,16 @@ void Classifier::addTypes(const std::vector<Item> &items, std::vector<std::strin
 
 Classifier::~Classifier() {
     delete dist;
-    while(!trainingData.empty()) {
-        Item temp = trainingData.back();
-        trainingData.pop_back();
+    while(!originalTrainingData.empty()) {
+        Item temp = originalTrainingData.back();
+        originalTrainingData.pop_back();
     }
     while(!outputTestData.empty()) {
         Item temp = outputTestData.back();
         outputTestData.pop_back();
     }
-    while(!inputTestData.empty()) {
-        Item temp = inputTestData.back();
-        inputTestData.pop_back();
+    while(!classifiedTrainingData.empty()) {
+        Item temp = classifiedTrainingData.back();
+        classifiedTrainingData.pop_back();
     }
 }

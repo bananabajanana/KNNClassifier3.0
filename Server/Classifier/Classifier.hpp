@@ -18,9 +18,9 @@ private:
     //region Server params
     int k;
     bool wasTestClassified;
-    std::vector<Item> trainingData;
+    std::vector<Item> originalTrainingData;
     std::vector<Item> outputTestData;
-    std::vector<Item> inputTestData;
+    std::vector<Item> classifiedTrainingData;
     DistanceCalc *dist;
     //endregion
 
@@ -71,6 +71,8 @@ public:
      */
     void defItems();
 
+    void defTrainingData();
+
     /**
      * Setter for the Distance Type
      * @param dist - distance calculator
@@ -101,12 +103,12 @@ public:
     /**
      * @return the Given Test Data (with user-given types)
      */
-    const std::vector<Item>& getTestInputData();
+    const std::vector<Item>& getClassifiedTrainingData();
 
     /**
      * @return the Training Data.
      */
-    const std::vector<Item>& getTrainingData();
+    const std::vector<Item>& getOriginalTrainingData();
 
     /**
      * Creat classifier for merging unclassified.
